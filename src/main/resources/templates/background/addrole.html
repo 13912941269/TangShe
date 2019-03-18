@@ -1,0 +1,80 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>添加角色</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style2.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="ht_content wrap">
+	<%layout("include/left.html"){}%>
+	<div class="right content">
+		<h3><span>添加角色</span></h3>
+		<div class="right_cont">
+		    <form action="${ctxPath}/manager/addrole"  method="post" id="form">
+				<p class="p2"><span>角色名</span><input type="text" name="name" id="name" placeholder="请输入角色名" onchange="check()"/></p>
+			</form>
+			<div class="clear"></div>
+			<button class="btn"  id="sub" onclick="go()"><a>提交</a></button>
+		</div>
+	</div>
+</div>
+
+<!--底部 开始-->
+<!--底部 结束-->
+<script type="text/javascript">
+$(function () {
+	$("#permission").addClass('on');
+	$("#rolex").addClass('on');
+	$("#permissionxx").css("display","block");
+	$(".sidebar").css("width","189px");	
+	var temp=$("#rolex").find('ul').html();
+	$(".left-menu2").find('h5').html("");
+	$(".left-menu2").find('ul').html(temp);
+	$(".left-menu2").css("display","none");	
+	$(".content").css("margin-left","208px");
+});
+
+function go(){
+	var flag= true;
+	var name=$('#name').val();
+	if(name==''){
+		flag=false;
+		alert('请填写用户名!');
+	}
+	if(flag){
+		if(confirm('确定提交吗?')){
+			document.getElementById("form").submit();
+		}
+	}
+};
+
+function check(){
+	var name=$('#name').val();
+	 $.ajax({  
+         async:false,  
+         type: "POST",  
+         url: "${ctxPath}/manager/checkrolename",//注意路径
+         data:{"name":name},
+         dataType:"text",  
+         success:function(data){
+             if(data=='nook'){
+            	alert('此角色已存在!')
+            	$("#sub").attr("disabled",true);
+        	 }else{
+        		$("#sub").removeAttr("disabled");
+             }
+         }
+     })  
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+
+.content h4{
+	margin-top: 25px;
+	font-size: 16px;
+	color: #333;
+	font-weight: normal;
+	position: relative;
+	padding-left: 7px;
+	margin-bottom: 18px;
+}
+.content h4 i{
+	display: inline-block;
+	width: 2px;
+	height: 14px;
+	background: #efae7d;
+	position: absolute;
+	top: 4px;
+	left: 0;
+}
+.tt{
+	width: 100%;
+	height: auto;
+	border-collapse:collapse;
+	text-align: center;
+	margin-bottom: 47px;
+}
+.tt thead{
+	color: #333;
+	font-weight: bold;
+	height: 58px;
+	line-height: 58px;
+	background: #f7faff;
+	box-sizing: border-box;
+	border-top: 1px solid #e6e8ed;
+	border-bottom: 1px solid #e6e8ed;
+}
+.tt tbody td{
+	height: 71px;
+	box-sizing: border-box;
+	border-bottom: 3px solid #fff;	
+}
+.tt tbody .odd{background: #f9f9f9;}
+.tt tbody .even{background: #f6f4f4;}
+
+.tt img{
+	width: 55px;
+	height: 55px;
+}
+.operate a:first-child{
+	background: none
+}
+.operate a{
+	display: inline-block;
+	background: url(../images/line.jpg) no-repeat left center;
+	padding: 0 10px;
+}
+.operate a.del{
+	color: #244a82;
+}
+.btn{
+	margin-top: 25px;
+}
+.btn input{
+	width:7%;
+	border:1px solid #888;
+}
+.btn a{
+	padding:0 6px;
+	height: 24px;
+	border-radius: 3px;
+	background: #e57e31;
+	color: #fff;
+	line-height: 24px;
+	display: inline-block;
+	text-align: center;
+}
+
+
+.diglog {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,0.4);
+}
+
+.diglog .diglog-child{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -30%;
+	margin-top: -250px;
+	width:60%;
+	height: 600px;
+	background: #fff;
+	box-sizing: border-box;
+	padding: 10px 20px;
+	overflow-y:scroll;
+}
+
+
+.diglog .diglog-child p{
+	margin-bottom: 30px;
+}
+.diglog .diglog-child p span{
+	display:inline-block;
+	width:112px;
+	color: #333;
+	margin-right: 16px;
+	text-align: right;
+}
+.diglog .diglog-child p.p1 input{
+	width: 326px;
+	height: 43px;
+	line-height: 43px;
+	padding: 0 10px;
+	background: #f2f2f2;
+	color: #999999;
+}
+.diglog .diglog-child p.p2 input{
+	width: 326px;
+	height: 43px;
+	line-height: 43px;
+	padding: 0 10px;
+	background: #f2f2f2;
+	color: #999999;
+}
+.diglog .diglog-child p.p3 select{
+	width: 202px;
+	height: 43px;
+	line-height: 43px;
+	padding: 0 10px;
+	background: #f2f2f2;
+	color: #666;
+	/*-webkit-appearance: none;
+    -moz-appearance: none;
+    -o-appearance: none;
+    appearance: none;*/
+}
+.diglog .diglog-child p.p4 input{
+	margin-right: 8px;
+}
+.diglog .diglog-child p.p5 span{
+	float: left;
+}
+.diglog .diglog-child p.p5 textarea{
+	float: left;
+	width: 500px;
+	height: 163px;
+	padding: 18px 18px;
+	background: #f2f2f2;
+}
+.diglog .diglog-child .btn{
+	width: 330px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	background: #e57e31;
+	font-size: 16px;
+	margin-left: 124px;
+	margin-top: 60px;
+	margin-bottom:30px;
+	border:0;
+}
+.diglog .diglog-child .btn a{
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+}

@@ -1,0 +1,62 @@
+ <div class="sidebar">
+  <em class="folding2"></em>  		
+  	<div class="left-menus1">  		 		
+  	<div class="left-menu">
+  		<div class="folding">
+  		</div>
+  		<ul>
+			<%
+				var shirouser=@com.chemguan.util.ShiroExt.getSubjectInfo();
+			%>
+			<%for(item in shirouser.permissionmenulist){%>
+				<li id="${item.subclass }"><p>${item.name }</p>
+					<div id="${item.subclass }xx" class="submenu">
+						<%for(per in item.listpermission){%>
+							<a href="${ctxPath}${per.url }">
+								<span id="${per.subclass }" class="s1">
+									<i></i>
+									<em>${per.name }</em>
+									<ul id="apd"></ul>
+								</span>
+							</a>
+						<%}%>
+					</div>
+				</li>
+			<%}%>
+
+			<!--<li id="backlogin"><p>后台登录管理</p>
+				<div id="backloginxx" class="submenu">
+					<a href="allbguser">
+  					<span id="backloginx" class="s1">
+  						<i></i>
+  						<em>查看后台用户</em>
+  						<ul id="apd">
+  						</ul>
+  					</span>
+					</a>
+				</div>
+			</li>
+
+  			<li id="permission"><p>权限管理</p>
+  				<div id="permissionxx" class="submenu">
+  				<a href="allrole">
+  					<span id="rolex" class="s1">
+  						<i></i>
+  						<em>查看后台用户</em> 	
+  						<ul id="apd">
+  						</ul>					
+  					</span>
+  				</a>
+  				</div>
+  			</li>-->
+  		</ul>
+  	</div>
+  	</div>
+  	<div class="left-menus2">
+  	<div class="left-menu2">
+  		<h5></h5>
+  		<ul>
+  		</ul>
+  	</div>
+  	</div>
+  </div>

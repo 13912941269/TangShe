@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chemguan.background.mapper.BackGroundLoginDao">
+
+	<resultMap type="com.chemguan.background.model.SysRolePermission" id="sysrolepermissionmapper">
+		<id column="sys_role_permission_id" property="sys_role_permission_id" />
+		<result column="sys_role_id" property="sys_role_id" />
+		<result column="sys_permission_id" property="sys_permission_id" />
+		<association property="syspermission" javaType="com.chemguan.background.model.SysPermission">
+			<id column="sys_permission_id" property="sys_permission_id" />
+			<result column="name" property="name" />
+			<result column="url" property="url" />
+			<result column="percode" property="percode" />
+			<result column="available" property="available" />
+			<result column="subclass" property="subclass" />
+			<result column="parentid" property="parentid" />
+			<result column="type" property="type" />
+		</association>
+	</resultMap>
+
+
+	<select id="selectAllBg" resultType="com.chemguan.background.model.BackGroundLogin">
+		select a.id,a.realname,a.username,c.name rolename,c.sys_role_id roleid from backgroundlogin a left join sys_bg_role b on a.id=b.sys_bg_id left join sys_role c on b.sys_role_id=c.sys_role_id
+		ORDER BY a.id DESC
+	</select>
+
+
+
+	<delete id="deleteBgById">
+		DELETE from backgroundlogin where id=#{id}
+    </delete>
+
+
+
+	<select id="loginback" resultType="com.chemguan.background.model.BackGroundLogin">
+		select * from backgroundlogin where 1=1
+		<if test="username != null">
+			and username = #{username}
+		</if>
+		<if test="password != null">
+			and password = #{password}
+		</if>
+	</select>
+
+
+	<insert id="insertBg" useGeneratedKeys="true" keyProperty="id" parameterType="com.chemguan.background.model.BackGroundLogin">
+		insert into backgroundlogin(username,password,realname)
+		values(#{username},#{password},#{realname})
+	</insert>
+
+
+	<select id="checkBgname" resultType="java.lang.Integer">
+		select count(0) from backgroundlogin where username=#{bgname}
+</select>
+
+
+
+
+
+	<select id="selectBgById" resultType="com.chemguan.background.model.BackGroundLogin">
+		select * from backgroundlogin where
+		id=#{id}
+	</select>
+
+
+	<update id="updateBg">
+		update backgroundlogin set realname=#{realname},password=#{password}
+		where id=#{id}
+    </update>
+
+
+
+	<!--根据id查询所属角色-->
+	<select id="selectrolebybgid" resultType="com.chemguan.background.model.SysBgRole">
+		select * from sys_bg_role a left join sys_role b on a.sys_role_id=b.sys_role_id and b.available=1 where a.sys_bg_id=#{bgid}
+	</select>
+
+	<!--根据角色查询权限-->
+	<select id="selectpermissionbyroleid" resultMap="sysrolepermissionmapper">
+    	select * from sys_role_permission a
+    	left join sys_permission b
+    	on a.sys_permission_id=b.sys_permission_id
+    	WHERE b.available=1 and a.sys_role_id=#{roleid}
+    </select>
+
+
+
+	<!--查询所有角色-->
+	<select id="selectallrole" resultType="com.chemguan.background.model.SysRole">
+		select * from sys_role order by sys_role_id desc
+	</select>
+
+	<!--检查角色名-->
+	<select id="checkrolename" resultType="java.lang.Integer">
+		select count(0) from sys_role where 1=1
+		<if test="name != null">
+			and name = #{name}
+		</if>
+		<if test="roleid != null">
+			and sys_role_id <![CDATA[!= ]]> #{roleid}
+		</if>
+	</select>
+
+	<!--添加角色-->
+	<insert id="insertrole">
+		insert into sys_role(name,available) values(#{name},1)
+	</insert>
+
+	<!--修改角色-->
+	<update id="updaterole">
+		update sys_role set
+		<if test="name!=null">
+			name=#{name}
+		</if>
+		<if test="available!=null">
+			available=#{available}
+		</if>
+		where sys_role_id=#{roleid}
+	</update>
+
+	<!--根据id查询角色-->
+	<select id="selectrolebyid" resultType="com.chemguan.background.model.SysRole">
+		select * from sys_role where sys_role_id=#{roleid}
+	</select>
+
+
+
+	<!--赋予用户角色-->
+	<insert id="insertsysbgrole">
+		insert into sys_bg_role(sys_bg_id,sys_role_id) values(#{sys_bg_id},#{sys_role_id})
+	</insert>
+
+
+	<!--删除用户角色-->
+	<delete id="deletesysbgrole">
+		delete from sys_bg_role where sys_bg_id=#{bgid}
+	</delete>
+
+
+	<!--删除角色用户-->
+	<delete id="deletesysbgrolebyroleid">
+		delete from sys_bg_role where sys_role_id=#{roleid}
+	</delete>
+
+	<!--删除角色-->
+	<delete id="deleterole">
+		delete from sys_role where sys_role_id=#{roleid}
+	</delete>
+
+
+	<!--查询所有权限数量-->
+	<select id="selectAllPermissionCount" resultType="java.lang.Integer">
+		select count(0) from sys_permission where available=1
+	</select>
+
+	<!--查询所有权限-->
+	<select id="selectallpermission" resultType="com.chemguan.background.model.SysPermission">
+		select * from sys_permission where available=1 ORDER BY sys_permission_id DESC
+		<if test="pagebegin!=null">
+			limit #{pagebegin},#{pageend}
+		</if>
+
+	</select>
+
+
+	<!--删除角色权限-->
+	<delete id="deletesyspermissionrole">
+		delete from sys_role_permission where sys_role_id=#{roleid}
+	</delete>
+
+	<!--添加角色权限-->
+	<insert id="insertpermissionrole">
+		insert into sys_role_permission(sys_role_id,sys_permission_id)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.sys_role_id}, #{item.sys_permission_id})
+		</foreach>
+	</insert>
+
+</mapper>

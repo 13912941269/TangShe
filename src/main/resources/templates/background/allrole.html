@@ -1,0 +1,81 @@
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>角色管理</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/html5shiv.v3.72.min.js"></script>
+    <![endif]-->
+    
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="wrap">
+	<%layout("include/left.html"){}%>
+  <div class="content">
+  	<h4>角色管理<i></i></h4>
+  	<div class="btn">
+  			<a href="addrolepage">添加角色</a>
+  	</div>
+  	<table class="tt">
+		<thead>
+			<tr>
+				<th width="50%">角色名</th>
+				<th width="50%">操作</th>
+			</tr>
+		</thead>
+		
+		
+		<tbody>  
+		 <%for(item in pagebean.list){%>
+			<tr>                           
+				<td>${item.name}</td>
+				<td class="operate">
+					<a class="del" href="updaterolepage?roleid=${item.sys_role_id}" >编辑</a>
+					<a class="del" href="javascript:void(0)" onclick="deleterole(${item.sys_role_id})">删除</a>
+				</td>   
+			</tr>                          
+         <%}%>
+		</tbody>             
+	</table>
+<!--分页-->
+<%layout("include/pageview.html"){}%>
+<form action="allrole"  id="pageForm">
+</form>
+<!--分页-->
+  </div>
+</div>
+
+<!--底部 开始-->
+
+<!--底部 结束-->
+
+<script type="text/javascript">
+$(function () {
+	$("#permission").addClass('on');
+	$("#rolex").addClass('on');
+	$("#permissionxx").css("display","block");
+	$(".sidebar").css("width","189px");	
+	var temp=$("#rolex").find('ul').html();
+	$(".left-menu2").find('h5').html("查看角色");
+	$(".left-menu2").find('ul').html(temp);
+	$(".left-menu2").css("display","none");	
+	$(".content").css("margin-left","208px");
+});
+
+function deleterole(roleid){
+    if(confirm('是否确认删除')){
+        window.location.href='delterole?roleid='+roleid;
+    }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<div class="right_cont diglog">
+    <p class="p2"><span>姓名</span><input type="text" value="" v-model.trim="user.name"/></p>
+    <p class="p2"><span>爱好</span>
+        唱歌：<input type="checkbox" value="唱歌" v-model="user.hobits"/>
+        跳舞：<input type="checkbox" value="跳舞" v-model="user.hobits"/>
+        游泳：<input type="checkbox" value="游泳" v-model="user.hobits"/>
+        健身：<input type="checkbox" value="健身" v-model="user.hobits"/>
+    </p>
+    <p class="p2"><span>性别</span>
+        男：<input type="radio" value="男" v-model="user.sex"/>
+        女：<input type="radio" value="女" v-model="user.sex"/>
+    </p>
+    <p class="p2"><span>身高</span>
+        <input type="number" value="" v-model.number="user.height"/>
+    </p>
+
+    <p class="p2"><span>城市</span>
+        <select v-model="user.city">
+            <option value="南京">南京</option>
+            <option value="上海">上海</option>
+            <option value="厦门">厦门</option>
+            <option value="香港">香港</option>
+        </select>
+    </p>
+    <div class="clear"></div>
+    <button class="btn" @click="commit"><a href="javascript:void(0)">提交</a></button>
+    <p>{{user.name}}</p>
+    <p>{{user.hobits}}</p>
+    <p>{{user.sex}}</p>
+    <p>{{user.height}}</p>
+    <p>{{user.city}}</p>
+</div>
+<script type="text/javascript">
+    new Vue({
+        el: '.diglog',
+        data: {
+            user:{name: 'sw', hobits: [], sex: '', height: '', city: ''}
+        },
+        methods:{
+            commit:function(){
+                console.log(JSON.stringify(this.user));
+            }
+        }
+    })
+</script>
