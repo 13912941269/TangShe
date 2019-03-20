@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.ActivityBrandRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.ActivityBrand">
+            <id column="brand_id" jdbcType="INTEGER" property="brandId"/>
+            <result column="brand_name" jdbcType="VARCHAR" property="brandName"/>
+            <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

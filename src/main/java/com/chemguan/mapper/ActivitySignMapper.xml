@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.ActivitySignRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.ActivitySign">
+            <id column="sign_id" jdbcType="INTEGER" property="signId"/>
+            <result column="sign_tel" jdbcType="VARCHAR" property="signTel"/>
+            <result column="people_type" jdbcType="INTEGER" property="peopleType"/>
+            <result column="main_type" jdbcType="INTEGER" property="mainType"/>
+            <result column="tickket_auto" jdbcType="INTEGER" property="tickketAuto"/>
+            <result column="pay_type" jdbcType="INTEGER" property="payType"/>
+            <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

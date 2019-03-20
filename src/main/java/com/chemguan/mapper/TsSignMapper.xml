@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.TsSignRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.TsSign">
+            <id column="sign_id" jdbcType="INTEGER" property="signId"/>
+            <result column="cost_id" jdbcType="INTEGER" property="costId"/>
+            <result column="pay_method" jdbcType="INTEGER" property="payMethod"/>
+            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+            <result column="pay_type" jdbcType="INTEGER" property="payType"/>
+            <result column="team_id" jdbcType="INTEGER" property="teamId"/>
+            <result column="recommend_uid" jdbcType="INTEGER" property="recommendUid"/>
+            <result column="cus_name" jdbcType="VARCHAR" property="cusName"/>
+            <result column="cus_phone" jdbcType="VARCHAR" property="cusPhone"/>
+            <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+            <result column="need_desc" jdbcType="LONGTEXT" property="needDesc"/>
+            <result column="sign_num" jdbcType="VARCHAR" property="signNum"/>
+            <result column="sign_code" jdbcType="VARCHAR" property="signCode"/>
+            <result column="code_type" jdbcType="INTEGER" property="codeType"/>
+            <result column="sign_state" jdbcType="INTEGER" property="signState"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

@@ -1,0 +1,408 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>列表查询</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/pagination.css"/>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/html5shiv.v3.72.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/pagination.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/imgutil.js"></script>
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="wrap">
+    <%layout("include/left.html"){}%>
+    <div class="content">
+        <h4>列表查询<i></i></h4>
+        <div class="btn">
+            <a href="javascript:void(0)" @click="modify()">新增信息</a>
+
+
+        </div>
+
+        <table class="tt">
+            <thead>
+            <tr>
+                <th width="3.125%">openid</th>
+                <th width="3.125%">user_number</th>
+                <th width="3.125%">头像</th>
+                <th width="3.125%">昵称</th>
+                <th width="3.125%">姓名</th>
+                <th width="3.125%">密码</th>
+                <th width="3.125%">账户</th>
+                <th width="3.125%">性别 1:男 0:女 2:保密</th>
+                <th width="3.125%">手机号</th>
+                <th width="3.125%">出生年月</th>
+                <th width="3.125%">省</th>
+                <th width="3.125%">市</th>
+                <th width="3.125%">详细地址</th>
+                <th width="3.125%">0：未认证 1:个人认证 2:企业认证 3:组织认证</th>
+                <th width="3.125%">身份证号</th>
+                <th width="3.125%">真实姓名</th>
+                <th width="3.125%">身份证正面
+身份证正面
+身份证正面</th>
+                <th width="3.125%">身份证反面</th>
+                <th width="3.125%">企业全程</th>
+                <th width="3.125%">营业执照</th>
+                <th width="3.125%">法人</th>
+                <th width="3.125%">营业执照照片</th>
+                <th width="3.125%">组织机构名称</th>
+                <th width="3.125%">组织机构代码</th>
+                <th width="3.125%">负责人名称</th>
+                <th width="3.125%">组织机构代码证照片</th>
+                <th width="3.125%">主办方图片</th>
+                <th width="3.125%">主办方名称</th>
+                <th width="3.125%">主办方简介</th>
+                <th width="3.125%">添加时间</th>
+                <th width="3.125%">操作</th>
+            </tr>
+            </thead>
+
+            <tbody id="contextdetail">
+
+            <tr v-if="list.length==0">
+                <td colspan="20">暂无数据</td>
+            </tr>
+
+            <tr v-for="(item,index) in list">
+                <td>{{ item.openid }}</td>
+                <td>{{ item.userNumber }}</td>
+                <td><img v-if="item.userImg!=null&&item.userImg!=''" :src="'${ctxPath}/projectimg/'+item.userImg"/></td>
+                <td>{{ item.nickName }}</td>
+                <td>{{ item.userName }}</td>
+                <td>{{ item.userPwd }}</td>
+                <td>{{ item.userAcount }}</td>
+                <td>{{ item.userSex }}</td>
+                <td>{{ item.userPhone }}</td>
+                <td>{{item.birthday|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{ item.province }}</td>
+                <td>{{ item.city }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.authType }}</td>
+                <td>{{ item.certifyNumebr }}</td>
+                <td>{{ item.realName }}</td>
+                <td><img v-if="item.faceImg!=null&&item.faceImg!=''" :src="'${ctxPath}/projectimg/'+item.faceImg"/></td>
+                <td><img v-if="item.backImg!=null&&item.backImg!=''" :src="'${ctxPath}/projectimg/'+item.backImg"/></td>
+                <td>{{ item.companyName }}</td>
+                <td>{{ item.businessNumber }}</td>
+                <td>{{ item.legalPerson }}</td>
+                <td><img v-if="item.businessImg!=null&&item.businessImg!=''" :src="'${ctxPath}/projectimg/'+item.businessImg"/></td>
+                <td>{{ item.organizeName }}</td>
+                <td>{{ item.organizeNumber }}</td>
+                <td>{{ item.chargeName }}</td>
+                <td><img v-if="item.organizeImg!=null&&item.organizeImg!=''" :src="'${ctxPath}/projectimg/'+item.organizeImg"/></td>
+                <td><img v-if="item.spomsorImg!=null&&item.spomsorImg!=''" :src="'${ctxPath}/projectimg/'+item.spomsorImg"/></td>
+                <td>{{ item.spomsorName }}</td>
+                <td>{{ item.spomsorDesc }}</td>
+                <td>{{item.addtime|datafmt('yyyy-MM-dd')}}</td>
+                <td>
+                    <a class="del" href="javascript:void(0)" @click="modify(item.userId)">编辑</a>
+                    <a class="del" href="javascript:void(0)" @click="deldata(item.userId)" >删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!--分页-->
+    <%layout("include/pageviewnow.html"){}%>
+</div>
+
+
+
+<!--添加修改弹框-->
+<div v-if="diglogshow" class="diglog">
+    <div class="diglog-child">
+        <div style="text-align: right" @click="dighide"><img src="${ctxPath}/backresourse/images/close_2.png" alt=""></div>
+
+
+
+        <p class="p2"><span>openid</span><input type="number" v-model.number="obj.openid"/></p>
+
+
+        <p class="p2"><span>user_number</span><input type="text" v-model="obj.userNumber"/></p>
+
+
+        <p class="p2"><span>头像</span>
+            <input type="file" id="userImgdata" onchange="uploadBtnChange('userImgdata','userImgval','userImgimg','${ctxPath}')"/>
+            <input type="hidden" id="userImgval">
+            <img style="width: 100px;" id="userImgimg">
+        </p>
+
+
+        <p class="p2"><span>昵称</span><input type="text" v-model="obj.nickName"/></p>
+
+
+        <p class="p2"><span>姓名</span><input type="text" v-model="obj.userName"/></p>
+
+
+        <p class="p2"><span>密码</span><input type="text" v-model="obj.userPwd"/></p>
+
+
+        <p class="p2"><span>账户</span><input type="text" v-model="obj.userAcount"/></p>
+
+
+        <p class="p2"><span>性别 1:男 0:女 2:保密</span><input type="number" v-model.number="obj.userSex"/></p>
+
+
+        <p class="p2"><span>手机号</span><input type="text" v-model="obj.userPhone"/></p>
+
+
+        <p class="p2"><span>出生年月</span><input type="text" v-model="obj.birthday"/></p>
+
+
+        <p class="p2"><span>省</span><input type="text" v-model="obj.province"/></p>
+
+
+        <p class="p2"><span>市</span><input type="text" v-model="obj.city"/></p>
+
+
+        <p class="p2"><span>详细地址</span><input type="text" v-model="obj.address"/></p>
+
+
+        <p class="p2"><span>0：未认证 1:个人认证 2:企业认证 3:组织认证</span><input type="number" v-model.number="obj.authType"/></p>
+
+
+        <p class="p2"><span>身份证号</span><input type="text" v-model="obj.certifyNumebr"/></p>
+
+
+        <p class="p2"><span>真实姓名</span><input type="text" v-model="obj.realName"/></p>
+
+
+        <p class="p2"><span>身份证正面
+身份证正面
+身份证正面</span>
+            <input type="file" id="faceImgdata" onchange="uploadBtnChange('faceImgdata','faceImgval','faceImgimg','${ctxPath}')"/>
+            <input type="hidden" id="faceImgval">
+            <img style="width: 100px;" id="faceImgimg">
+        </p>
+
+
+        <p class="p2"><span>身份证反面</span>
+            <input type="file" id="backImgdata" onchange="uploadBtnChange('backImgdata','backImgval','backImgimg','${ctxPath}')"/>
+            <input type="hidden" id="backImgval">
+            <img style="width: 100px;" id="backImgimg">
+        </p>
+
+
+        <p class="p2"><span>企业全程</span><input type="text" v-model="obj.companyName"/></p>
+
+
+        <p class="p2"><span>营业执照</span><input type="text" v-model="obj.businessNumber"/></p>
+
+
+        <p class="p2"><span>法人</span><input type="text" v-model="obj.legalPerson"/></p>
+
+
+        <p class="p2"><span>营业执照照片</span>
+            <input type="file" id="businessImgdata" onchange="uploadBtnChange('businessImgdata','businessImgval','businessImgimg','${ctxPath}')"/>
+            <input type="hidden" id="businessImgval">
+            <img style="width: 100px;" id="businessImgimg">
+        </p>
+
+
+        <p class="p2"><span>组织机构名称</span><input type="text" v-model="obj.organizeName"/></p>
+
+
+        <p class="p2"><span>组织机构代码</span><input type="text" v-model="obj.organizeNumber"/></p>
+
+
+        <p class="p2"><span>负责人名称</span><input type="text" v-model="obj.chargeName"/></p>
+
+
+        <p class="p2"><span>组织机构代码证照片</span>
+            <input type="file" id="organizeImgdata" onchange="uploadBtnChange('organizeImgdata','organizeImgval','organizeImgimg','${ctxPath}')"/>
+            <input type="hidden" id="organizeImgval">
+            <img style="width: 100px;" id="organizeImgimg">
+        </p>
+
+
+        <p class="p2"><span>主办方图片</span>
+            <input type="file" id="spomsorImgdata" onchange="uploadBtnChange('spomsorImgdata','spomsorImgval','spomsorImgimg','${ctxPath}')"/>
+            <input type="hidden" id="spomsorImgval">
+            <img style="width: 100px;" id="spomsorImgimg">
+        </p>
+
+
+        <p class="p2"><span>主办方名称</span><input type="text" v-model="obj.spomsorName"/></p>
+
+
+        <p class="p2"><span>主办方简介</span><input type="text" v-model="obj.spomsorDesc"/></p>
+
+
+        <p class="p2"><span>添加时间</span><input type="text" v-model="obj.addtime"/></p>
+        <div class="clear"></div>
+        <button class="btn" @click="commit(obj.userId)">
+            <a href="javascript:void(0)">提交</a>
+        </button>
+    </div>
+</div>
+<!--添加修改弹框-->
+
+<script type="text/javascript">
+    $(function () {
+        $("#ts").addClass('on');
+        $("#tsuser").addClass('on');
+        $("#tsxx").css("display","block");
+        $(".sidebar").css("width","189px");
+        var temp=$("#tsuser").find('ul').html();
+        $(".left-menu2").find('h5').html("findall");
+        $(".left-menu2").find('ul').html(temp);
+        $(".left-menu2").css("display","none");
+        $(".content").css("margin-left","208px");
+    });
+</script>
+<script type="text/javascript" src="${ctxPath}/backresourse/js/pagejsutil.js"></script>
+<script type="text/javascript">
+    function commitckeck(){
+        if(dig.obj.userNumber!=null&&dig.obj.userNumber.length>255){
+            alert('user_number不得超过255个字符');
+            return false;
+        }
+        if($("#userImgval").val()!=""){
+            dig.obj.userImg=$("#userImgval").val();
+        }
+        if(dig.obj.userImg!=null&&dig.obj.userImg.length>255){
+            alert('头像不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.nickName!=null&&dig.obj.nickName.length>255){
+            alert('昵称不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.userName!=null&&dig.obj.userName.length>255){
+            alert('姓名不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.userPwd!=null&&dig.obj.userPwd.length>255){
+            alert('密码不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.userAcount!=null&&dig.obj.userAcount.length>255){
+            alert('账户不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.userPhone!=null&&dig.obj.userPhone.length>255){
+            alert('手机号不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.birthday!=null){
+            dig.obj.birthday=new Date(dig.obj.birthday);
+        }
+        if(dig.obj.province!=null&&dig.obj.province.length>255){
+            alert('省不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.city!=null&&dig.obj.city.length>255){
+            alert('市不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.certifyNumebr!=null&&dig.obj.certifyNumebr.length>255){
+            alert('身份证号不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.realName!=null&&dig.obj.realName.length>255){
+            alert('真实姓名不得超过255个字符');
+            return false;
+        }
+        if($("#faceImgval").val()!=""){
+            dig.obj.faceImg=$("#faceImgval").val();
+        }
+        if(dig.obj.faceImg!=null&&dig.obj.faceImg.length>255){
+            alert('身份证正面
+身份证正面
+身份证正面不得超过255个字符');
+            return false;
+        }
+        if($("#backImgval").val()!=""){
+            dig.obj.backImg=$("#backImgval").val();
+        }
+        if(dig.obj.backImg!=null&&dig.obj.backImg.length>255){
+            alert('身份证反面不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.companyName!=null&&dig.obj.companyName.length>255){
+            alert('企业全程不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.businessNumber!=null&&dig.obj.businessNumber.length>255){
+            alert('营业执照不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.legalPerson!=null&&dig.obj.legalPerson.length>255){
+            alert('法人不得超过255个字符');
+            return false;
+        }
+        if($("#businessImgval").val()!=""){
+            dig.obj.businessImg=$("#businessImgval").val();
+        }
+        if(dig.obj.businessImg!=null&&dig.obj.businessImg.length>255){
+            alert('营业执照照片不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.organizeName!=null&&dig.obj.organizeName.length>255){
+            alert('组织机构名称不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.organizeNumber!=null&&dig.obj.organizeNumber.length>255){
+            alert('组织机构代码不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.chargeName!=null&&dig.obj.chargeName.length>255){
+            alert('负责人名称不得超过255个字符');
+            return false;
+        }
+        if($("#organizeImgval").val()!=""){
+            dig.obj.organizeImg=$("#organizeImgval").val();
+        }
+        if(dig.obj.organizeImg!=null&&dig.obj.organizeImg.length>255){
+            alert('组织机构代码证照片不得超过255个字符');
+            return false;
+        }
+        if($("#spomsorImgval").val()!=""){
+            dig.obj.spomsorImg=$("#spomsorImgval").val();
+        }
+        if(dig.obj.spomsorImg!=null&&dig.obj.spomsorImg.length>255){
+            alert('主办方图片不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.spomsorName!=null&&dig.obj.spomsorName.length>255){
+            alert('主办方名称不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.spomsorDesc!=null&&dig.obj.spomsorDesc.length>255){
+            alert('主办方简介不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.addtime!=null){
+            dig.obj.addtime=new Date(dig.obj.addtime);
+        }
+        return true;
+    }
+
+    function ckeckrepit(){
+        return true;
+    }
+    vm.getpath="${ctxPath}/ts/user";
+    vm.gopage();
+
+
+
+
+    function initfwb(){
+    }
+</script>
+</body>
+</html>

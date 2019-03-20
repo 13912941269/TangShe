@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.TsActivityRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.TsActivity">
+            <id column="activity_id" jdbcType="INTEGER" property="activityId"/>
+            <result column="activity_title" jdbcType="VARCHAR" property="activityTitle"/>
+            <result column="activity_address" jdbcType="VARCHAR" property="activityAddress"/>
+            <result column="activity_lng" jdbcType="VARCHAR" property="activityLng"/>
+            <result column="activity_lat" jdbcType="VARCHAR" property="activityLat"/>
+            <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+            <result column="sign_time" jdbcType="TIMESTAMP" property="signTime"/>
+            <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+            <result column="colum_id" jdbcType="INTEGER" property="columId"/>
+            <result column="title_img" jdbcType="LONGTEXT" property="titleImg"/>
+            <result column="content_img" jdbcType="LONGTEXT" property="contentImg"/>
+            <result column="comment_type" jdbcType="INTEGER" property="commentType"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>
+            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+            <result column="principal_id" jdbcType="INTEGER" property="principalId"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

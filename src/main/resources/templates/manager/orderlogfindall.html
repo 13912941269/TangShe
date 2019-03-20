@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>列表查询</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/pagination.css"/>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/html5shiv.v3.72.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/pagination.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue-resource.min.js"></script>
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="wrap">
+    <%layout("include/left.html"){}%>
+    <div class="content">
+        <h4>列表查询<i></i></h4>
+        <div class="btn">
+            <a href="javascript:void(0)" @click="modify()">新增信息</a>
+
+
+        </div>
+
+        <table class="tt">
+            <thead>
+            <tr>
+                <th width="14.285714285714286%">操作者</th>
+                <th width="14.285714285714286%">当前金额</th>
+                <th width="14.285714285714286%">历史金额</th>
+                <th width="14.285714285714286%">添加时间</th>
+                <th width="14.285714285714286%">订单id</th>
+                <th width="14.285714285714286%">操作</th>
+            </tr>
+            </thead>
+
+            <tbody id="contextdetail">
+
+            <tr v-if="list.length==0">
+                <td colspan="20">暂无数据</td>
+            </tr>
+
+            <tr v-for="(item,index) in list">
+                <td>{{ item.userId }}</td>
+                <td>{{ item.nowMoney }}</td>
+                <td>{{ item.oldMoney }}</td>
+                <td>{{item.addtime|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{ item.orderId }}</td>
+                <td>
+                    <a class="del" href="javascript:void(0)" @click="modify(item.logId)">编辑</a>
+                    <a class="del" href="javascript:void(0)" @click="deldata(item.logId)" >删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!--分页-->
+    <%layout("include/pageviewnow.html"){}%>
+</div>
+
+
+
+<!--添加修改弹框-->
+<div v-if="diglogshow" class="diglog">
+    <div class="diglog-child">
+        <div style="text-align: right" @click="dighide"><img src="${ctxPath}/backresourse/images/close_2.png" alt=""></div>
+
+
+
+        <p class="p2"><span>操作者</span><input type="number" v-model.number="obj.userId"/></p>
+
+
+        <p class="p2"><span>当前金额</span><input type="text" v-model="obj.nowMoney"/></p>
+
+
+        <p class="p2"><span>历史金额</span><input type="text" v-model="obj.oldMoney"/></p>
+
+
+        <p class="p2"><span>添加时间</span><input type="text" v-model="obj.addtime"/></p>
+
+
+        <p class="p2"><span>订单id</span><input type="number" v-model.number="obj.orderId"/></p>
+        <div class="clear"></div>
+        <button class="btn" @click="commit(obj.logId)">
+            <a href="javascript:void(0)">提交</a>
+        </button>
+    </div>
+</div>
+<!--添加修改弹框-->
+
+<script type="text/javascript">
+    $(function () {
+        $("#order").addClass('on');
+        $("#orderlog").addClass('on');
+        $("#orderxx").css("display","block");
+        $(".sidebar").css("width","189px");
+        var temp=$("#orderlog").find('ul').html();
+        $(".left-menu2").find('h5').html("findall");
+        $(".left-menu2").find('ul').html(temp);
+        $(".left-menu2").css("display","none");
+        $(".content").css("margin-left","208px");
+    });
+</script>
+<script type="text/javascript" src="${ctxPath}/backresourse/js/pagejsutil.js"></script>
+<script type="text/javascript">
+    function commitckeck(){
+        if(dig.obj.addtime!=null){
+            dig.obj.addtime=new Date(dig.obj.addtime);
+        }
+        return true;
+    }
+
+    function ckeckrepit(){
+        return true;
+    }
+    vm.getpath="${ctxPath}/order/log";
+    vm.gopage();
+
+
+
+
+    function initfwb(){
+    }
+</script>
+</body>
+</html>

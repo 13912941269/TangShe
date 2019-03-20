@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.TsOrderRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.TsOrder">
+            <id column="order_id" jdbcType="INTEGER" property="orderId"/>
+            <result column="sign_uid" jdbcType="INTEGER" property="signUid"/>
+            <result column="order_money" jdbcType="DOUBLE" property="orderMoney"/>
+            <result column="sale_money" jdbcType="DOUBLE" property="saleMoney"/>
+            <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
+            <result column="team_uid" jdbcType="INTEGER" property="teamUid"/>
+            <result column="sign_did" jdbcType="INTEGER" property="signDid"/>
+            <result column="receipt_number" jdbcType="VARCHAR" property="receiptNumber"/>
+            <result column="order_desc" jdbcType="LONGTEXT" property="orderDesc"/>
+            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+            <result column="order_state" jdbcType="INTEGER" property="orderState"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

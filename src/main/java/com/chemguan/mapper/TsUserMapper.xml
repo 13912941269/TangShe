@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.TsUserRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.TsUser">
+            <id column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="openid" jdbcType="INTEGER" property="openid"/>
+            <result column="user_number" jdbcType="VARCHAR" property="userNumber"/>
+            <result column="user_img" jdbcType="VARCHAR" property="userImg"/>
+            <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
+            <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+            <result column="user_pwd" jdbcType="VARCHAR" property="userPwd"/>
+            <result column="user_acount" jdbcType="VARCHAR" property="userAcount"/>
+            <result column="user_sex" jdbcType="INTEGER" property="userSex"/>
+            <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+            <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
+            <result column="province" jdbcType="VARCHAR" property="province"/>
+            <result column="city" jdbcType="VARCHAR" property="city"/>
+            <result column="address" jdbcType="LONGTEXT" property="address"/>
+            <result column="auth_type" jdbcType="INTEGER" property="authType"/>
+            <result column="certify_numebr" jdbcType="VARCHAR" property="certifyNumebr"/>
+            <result column="real_name" jdbcType="VARCHAR" property="realName"/>
+            <result column="face_img" jdbcType="VARCHAR" property="faceImg"/>
+            <result column="back_img" jdbcType="VARCHAR" property="backImg"/>
+            <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+            <result column="business_number" jdbcType="VARCHAR" property="businessNumber"/>
+            <result column="legal_person" jdbcType="VARCHAR" property="legalPerson"/>
+            <result column="business_img" jdbcType="VARCHAR" property="businessImg"/>
+            <result column="organize_name" jdbcType="VARCHAR" property="organizeName"/>
+            <result column="organize_number" jdbcType="VARCHAR" property="organizeNumber"/>
+            <result column="charge_name" jdbcType="VARCHAR" property="chargeName"/>
+            <result column="organize_img" jdbcType="VARCHAR" property="organizeImg"/>
+            <result column="spomsor_img" jdbcType="VARCHAR" property="spomsorImg"/>
+            <result column="spomsor_name" jdbcType="VARCHAR" property="spomsorName"/>
+            <result column="spomsor_desc" jdbcType="VARCHAR" property="spomsorDesc"/>
+            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

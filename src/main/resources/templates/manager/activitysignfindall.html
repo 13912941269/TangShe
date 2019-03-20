@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>列表查询</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/pagination.css"/>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/html5shiv.v3.72.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/pagination.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue-resource.min.js"></script>
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="wrap">
+    <%layout("include/left.html"){}%>
+    <div class="content">
+        <h4>列表查询<i></i></h4>
+        <div class="btn">
+            <a href="javascript:void(0)" @click="modify()">新增信息</a>
+
+
+        </div>
+
+        <table class="tt">
+            <thead>
+            <tr>
+                <th width="12.5%">手机/座机号（区号-座机号）</th>
+                <th width="12.5%">是否展示报名人数1:是 0:否</th>
+                <th width="12.5%">是否允许主办成员报名1:是 0:否</th>
+                <th width="12.5%">是否手动售票1:是 0:否</th>
+                <th width="12.5%">是否允许线下支付1:是 0:否</th>
+                <th width="12.5%">activity_id</th>
+                <th width="12.5%">操作</th>
+            </tr>
+            </thead>
+
+            <tbody id="contextdetail">
+
+            <tr v-if="list.length==0">
+                <td colspan="20">暂无数据</td>
+            </tr>
+
+            <tr v-for="(item,index) in list">
+                <td>{{ item.signTel }}</td>
+                <td>{{ item.peopleType }}</td>
+                <td>{{ item.mainType }}</td>
+                <td>{{ item.tickketAuto }}</td>
+                <td>{{ item.payType }}</td>
+                <td>{{ item.activityId }}</td>
+                <td>
+                    <a class="del" href="javascript:void(0)" @click="modify(item.signId)">编辑</a>
+                    <a class="del" href="javascript:void(0)" @click="deldata(item.signId)" >删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!--分页-->
+    <%layout("include/pageviewnow.html"){}%>
+</div>
+
+
+
+<!--添加修改弹框-->
+<div v-if="diglogshow" class="diglog">
+    <div class="diglog-child">
+        <div style="text-align: right" @click="dighide"><img src="${ctxPath}/backresourse/images/close_2.png" alt=""></div>
+
+
+
+        <p class="p2"><span>手机/座机号（区号-座机号）</span><input type="text" v-model="obj.signTel"/></p>
+
+
+        <p class="p2"><span>是否展示报名人数1:是 0:否</span><input type="number" v-model.number="obj.peopleType"/></p>
+
+
+        <p class="p2"><span>是否允许主办成员报名1:是 0:否</span><input type="number" v-model.number="obj.mainType"/></p>
+
+
+        <p class="p2"><span>是否手动售票1:是 0:否</span><input type="number" v-model.number="obj.tickketAuto"/></p>
+
+
+        <p class="p2"><span>是否允许线下支付1:是 0:否</span><input type="number" v-model.number="obj.payType"/></p>
+
+
+        <p class="p2"><span>activity_id</span><input type="number" v-model.number="obj.activityId"/></p>
+        <div class="clear"></div>
+        <button class="btn" @click="commit(obj.signId)">
+            <a href="javascript:void(0)">提交</a>
+        </button>
+    </div>
+</div>
+<!--添加修改弹框-->
+
+<script type="text/javascript">
+    $(function () {
+        $("#activity").addClass('on');
+        $("#activitysign").addClass('on');
+        $("#activityxx").css("display","block");
+        $(".sidebar").css("width","189px");
+        var temp=$("#activitysign").find('ul').html();
+        $(".left-menu2").find('h5').html("findall");
+        $(".left-menu2").find('ul').html(temp);
+        $(".left-menu2").css("display","none");
+        $(".content").css("margin-left","208px");
+    });
+</script>
+<script type="text/javascript" src="${ctxPath}/backresourse/js/pagejsutil.js"></script>
+<script type="text/javascript">
+    function commitckeck(){
+        if(dig.obj.signTel!=null&&dig.obj.signTel.length>255){
+            alert('手机/座机号（区号-座机号）不得超过255个字符');
+            return false;
+        }
+        return true;
+    }
+
+    function ckeckrepit(){
+        return true;
+    }
+    vm.getpath="${ctxPath}/activity/sign";
+    vm.gopage();
+
+
+
+
+    function initfwb(){
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="Author" content="">
+    <meta content="" name="design">
+    <title>列表查询</title>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/pagination.css"/>
+    <link rel="stylesheet" href="${ctxPath}/backresourse/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="${ctxPath}/backresourse/css/style.css"/>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/base.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/html5shiv.v3.72.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/pagination.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/vue-resource.min.js"></script>
+    <script type="text/javascript" src="${ctxPath}/backresourse/js/imgutil.js"></script>
+</head>
+<body>
+<!--头部 开始-->
+<%layout("include/top.html"){}%>
+<!--头部 结束-->
+<div class="wrap">
+    <%layout("include/left.html"){}%>
+    <div class="content">
+        <h4>列表查询<i></i></h4>
+        <div class="btn">
+            <a href="javascript:void(0)" @click="modify()">新增信息</a>
+
+
+        </div>
+
+        <table class="tt">
+            <thead>
+            <tr>
+                <th width="5.882352941176471%">活动主题</th>
+                <th width="5.882352941176471%">活动地点</th>
+                <th width="5.882352941176471%">经度</th>
+                <th width="5.882352941176471%">纬度</th>
+                <th width="5.882352941176471%">开始时间</th>
+                <th width="5.882352941176471%">截止报名</th>
+                <th width="5.882352941176471%">结束时间</th>
+                <th width="5.882352941176471%">活动类别</th>
+                <th width="5.882352941176471%">活动封面（多张以,隔开）</th>
+                <th width="5.882352941176471%">活动内容（多张以,隔开）</th>
+                <th width="5.882352941176471%">用户评论 1:可评论 0:不可评论</th>
+                <th width="5.882352941176471%">主办方</th>
+                <th width="5.882352941176471%">成员加入活动二维码地址</th>
+                <th width="5.882352941176471%">添加时间</th>
+                <th width="5.882352941176471%">负责人</th>
+                <th width="5.882352941176471%">操作</th>
+            </tr>
+            </thead>
+
+            <tbody id="contextdetail">
+
+            <tr v-if="list.length==0">
+                <td colspan="20">暂无数据</td>
+            </tr>
+
+            <tr v-for="(item,index) in list">
+                <td>{{ item.activityTitle }}</td>
+                <td>{{ item.activityAddress }}</td>
+                <td>{{ item.activityLng }}</td>
+                <td>{{ item.activityLat }}</td>
+                <td>{{item.startTime|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{item.signTime|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{item.endTime|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{ item.columId }}</td>
+                <td><img v-if="item.titleImg!=null&&item.titleImg!=''" :src="'${ctxPath}/projectimg/'+item.titleImg"/></td>
+                <td><img v-if="item.contentImg!=null&&item.contentImg!=''" :src="'${ctxPath}/projectimg/'+item.contentImg"/></td>
+                <td>{{ item.commentType }}</td>
+                <td>{{ item.userId }}</td>
+                <td>{{ item.qrCode }}</td>
+                <td>{{item.addtime|datafmt('yyyy-MM-dd')}}</td>
+                <td>{{ item.principalId }}</td>
+                <td>
+                    <a class="del" href="javascript:void(0)" @click="modify(item.activityId)">编辑</a>
+                    <a class="del" href="javascript:void(0)" @click="deldata(item.activityId)" >删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <!--分页-->
+    <%layout("include/pageviewnow.html"){}%>
+</div>
+
+
+
+<!--添加修改弹框-->
+<div v-if="diglogshow" class="diglog">
+    <div class="diglog-child">
+        <div style="text-align: right" @click="dighide"><img src="${ctxPath}/backresourse/images/close_2.png" alt=""></div>
+
+
+
+        <p class="p2"><span>活动主题</span><input type="text" v-model="obj.activityTitle"/></p>
+
+
+        <p class="p2"><span>活动地点</span><input type="text" v-model="obj.activityAddress"/></p>
+
+
+        <p class="p2"><span>经度</span><input type="text" v-model="obj.activityLng"/></p>
+
+
+        <p class="p2"><span>纬度</span><input type="text" v-model="obj.activityLat"/></p>
+
+
+        <p class="p2"><span>开始时间</span><input type="text" v-model="obj.startTime"/></p>
+
+
+        <p class="p2"><span>截止报名</span><input type="text" v-model="obj.signTime"/></p>
+
+
+        <p class="p2"><span>结束时间</span><input type="text" v-model="obj.endTime"/></p>
+
+
+        <p class="p2"><span>活动类别</span><input type="number" v-model.number="obj.columId"/></p>
+
+
+        <p class="p2"><span>活动封面（多张以,隔开）</span>
+            <input type="file" id="titleImgdata" onchange="uploadBtnChange('titleImgdata','titleImgval','titleImgimg','${ctxPath}')"/>
+            <input type="hidden" id="titleImgval">
+            <img style="width: 100px;" id="titleImgimg">
+        </p>
+
+
+        <p class="p2"><span>活动内容（多张以,隔开）</span>
+            <input type="file" id="contentImgdata" onchange="uploadBtnChange('contentImgdata','contentImgval','contentImgimg','${ctxPath}')"/>
+            <input type="hidden" id="contentImgval">
+            <img style="width: 100px;" id="contentImgimg">
+        </p>
+
+
+        <p class="p2"><span>用户评论 1:可评论 0:不可评论</span><input type="number" v-model.number="obj.commentType"/></p>
+
+
+        <p class="p2"><span>主办方</span><input type="number" v-model.number="obj.userId"/></p>
+
+
+        <p class="p2"><span>成员加入活动二维码地址</span><input type="text" v-model="obj.qrCode"/></p>
+
+
+        <p class="p2"><span>添加时间</span><input type="text" v-model="obj.addtime"/></p>
+
+
+        <p class="p2"><span>负责人</span><input type="number" v-model.number="obj.principalId"/></p>
+        <div class="clear"></div>
+        <button class="btn" @click="commit(obj.activityId)">
+            <a href="javascript:void(0)">提交</a>
+        </button>
+    </div>
+</div>
+<!--添加修改弹框-->
+
+<script type="text/javascript">
+    $(function () {
+        $("#ts").addClass('on');
+        $("#tsactivity").addClass('on');
+        $("#tsxx").css("display","block");
+        $(".sidebar").css("width","189px");
+        var temp=$("#tsactivity").find('ul').html();
+        $(".left-menu2").find('h5').html("findall");
+        $(".left-menu2").find('ul').html(temp);
+        $(".left-menu2").css("display","none");
+        $(".content").css("margin-left","208px");
+    });
+</script>
+<script type="text/javascript" src="${ctxPath}/backresourse/js/pagejsutil.js"></script>
+<script type="text/javascript">
+    function commitckeck(){
+        if(dig.obj.activityTitle!=null&&dig.obj.activityTitle.length>255){
+            alert('活动主题不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.activityAddress!=null&&dig.obj.activityAddress.length>255){
+            alert('活动地点不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.activityLng!=null&&dig.obj.activityLng.length>255){
+            alert('经度不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.activityLat!=null&&dig.obj.activityLat.length>255){
+            alert('纬度不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.startTime!=null){
+            dig.obj.startTime=new Date(dig.obj.startTime);
+        }
+        if(dig.obj.signTime!=null){
+            dig.obj.signTime=new Date(dig.obj.signTime);
+        }
+        if(dig.obj.endTime!=null){
+            dig.obj.endTime=new Date(dig.obj.endTime);
+        }
+        if($("#titleImgval").val()!=""){
+            dig.obj.titleImg=$("#titleImgval").val();
+        }
+        if($("#contentImgval").val()!=""){
+            dig.obj.contentImg=$("#contentImgval").val();
+        }
+        if(dig.obj.qrCode!=null&&dig.obj.qrCode.length>255){
+            alert('成员加入活动二维码地址不得超过255个字符');
+            return false;
+        }
+        if(dig.obj.addtime!=null){
+            dig.obj.addtime=new Date(dig.obj.addtime);
+        }
+        return true;
+    }
+
+    function ckeckrepit(){
+        return true;
+    }
+    vm.getpath="${ctxPath}/ts/activity";
+    vm.gopage();
+
+
+
+
+    function initfwb(){
+    }
+</script>
+</body>
+</html>
