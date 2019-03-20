@@ -10,9 +10,9 @@
             <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
             <result column="sign_time" jdbcType="TIMESTAMP" property="signTime"/>
             <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
-            <result column="colum_id" jdbcType="INTEGER" property="columId"/>
-            <result column="title_img" jdbcType="LONGTEXT" property="titleImg"/>
-            <result column="content_img" jdbcType="LONGTEXT" property="contentImg"/>
+            <result column="colum_name" jdbcType="VARCHAR" property="columName"/>
+            <result column="title_img" jdbcType="TEXT" property="titleImg"/>
+            <result column="content_img" jdbcType="TEXT" property="contentImg"/>
             <result column="comment_type" jdbcType="INTEGER" property="commentType"/>
             <result column="user_id" jdbcType="INTEGER" property="userId"/>
             <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>

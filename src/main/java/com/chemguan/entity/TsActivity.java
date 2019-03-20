@@ -57,13 +57,13 @@ public class TsActivity  implements Serializable{
     private Date endTime;
     /** 活动类别 */
     @ApiModelProperty(value = "活动类别")
-    private Integer columId;
+    private String columName;
     /** 活动封面（多张以,隔开） */
     @ApiModelProperty(value = "活动封面（多张以,隔开）")
-    private  titleImg;
+    private String titleImg;
     /** 活动内容（多张以,隔开） */
     @ApiModelProperty(value = "活动内容（多张以,隔开）")
-    private  contentImg;
+    private String contentImg;
     /** 用户评论 1:可评论 0:不可评论 */
     @ApiModelProperty(value = "用户评论 1:可评论 0:不可评论")
     private Integer commentType;
