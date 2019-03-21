@@ -29,4 +29,9 @@ public class TsActivityServiceImpl extends AbstractService<TsActivity> implement
     public List<TsActivity> findByMap(Map map) {
         return TsActivityRepository.findByMap(map);
     }
+
+    @Override
+    public void insertactivity(TsActivity tsActivity) {
+        TsActivityRepository.insertactivity(tsActivity);
+    }
 }

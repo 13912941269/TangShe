@@ -2,13 +2,24 @@ package com.chemguan.mobilecontroller.shicontroller;
 
 import com.chemguan.business.core.results.Result;
 import com.chemguan.business.core.results.ResultGenerator;
+import com.chemguan.entity.ActivityCost;
+import com.chemguan.entity.ActivitySign;
 import com.chemguan.entity.TsActivity;
+import com.chemguan.service.ActivityCostService;
+import com.chemguan.service.ActivitySignService;
+import com.chemguan.service.TsActivityService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Title: TsUserModelController
@@ -21,6 +32,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("mobile")
 public class ActivityController {
 
+    @Autowired
+    private TsActivityService tsActivityService;
+
+    @Autowired
+    private ActivityCostService activityCostService;
+
+    @Autowired
+    private ActivitySignService activitySignService;
 
     /**
      * 添加活动页面
@@ -49,7 +68,8 @@ public class ActivityController {
      * @return
      */
     @RequestMapping("addact")
-    public Result addAct(String activityTitle,
+    public Result addAct(HttpServletRequest request,
+                            String activityTitle,
                          String activityAddress,
                          String startTime,
                          String signTime,
@@ -59,8 +79,13 @@ public class ActivityController {
                          String contentImg,
                          String costIds,
                          Integer signId,
-                         Integer commentType
-                               ) {
+                         Integer commentType,
+                         Integer scoreSwitch,
+                         Integer explosionSwitch,
+                         Integer groupSwitch
+                               ) throws ParseException {
+        Integer userId = (Integer) request.getSession().getAttribute("userid");
+        SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
         if(StringUtils.isEmpty(activityTitle)){
             return ResultGenerator.genFailResult("请输入活动主题内容");
@@ -103,7 +128,39 @@ public class ActivityController {
         }
 
         TsActivity tsActivity=new TsActivity();
+        tsActivity.setActivityTitle(activityTitle);
+        tsActivity.setActivityAddress(activityAddress);
+        tsActivity.setStartTime(sim.parse(startTime));
+        tsActivity.setSignTime(sim.parse(signTime));
+        tsActivity.setEndTime(sim.parse(endTime));
+        tsActivity.setUserId(userId);
+        tsActivity.setAddtime(new Date());
+        tsActivity.setColumName(columName);
+        tsActivity.setContentImg(contentImg);
+        tsActivity.setTitleImg(titleImg);
+        tsActivity.setCommentType(commentType);
+        tsActivity.setScoreSwitch(scoreSwitch);
+        tsActivity.setExplosionSwitch(explosionSwitch);
+        tsActivity.setGroupSwitch(groupSwitch);
+        tsActivityService.insertactivity(tsActivity);
 
+
+        //更新报名费用表
+        ActivitySign activitySign = activitySignService.findById(signId);
+        if(activitySign!=null){
+            activitySign.setActivityId(tsActivity.getActivityId());
+            activitySignService.update(activitySign);
+        }
+
+        //更新报名设置表
+        String[] split = costIds.split(",");
+        for(int i=0;i<split.length;i++){
+            ActivityCost activityCost = activityCostService.findById(split[i]);
+            if(activityCost!=null){
+                activityCost.setActivityId(tsActivity.getActivityId());
+                activityCostService.update(activityCost);
+            }
+        }
 
         return ResultGenerator.genSuccessResult();
     }

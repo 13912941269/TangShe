@@ -27,5 +27,116 @@
         SELECT * from ts_activity where activity_id in (SELECT activity_id from ts_collect where user_id = #{userid})
         </select>
 
+
+    <insert id="insertactivity" keyProperty="activityId" useGeneratedKeys="true">
+        insert into ts_activity
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="activityTitle!=null">
+                activity_title,
+            </if>
+            <if test="activityAddress!=null">
+                activity_address,
+            </if>
+            <if test="activityLng!=null">
+                activity_lng,
+            </if>
+            <if test="activityLat!=null">
+                activity_lat,
+            </if>
+            <if test="startTime!=null">
+                start_time,
+            </if>
+            <if test="signTime!=null">
+                sign_time,
+            </if>
+            <if test="endTime!=null">
+                end_time,
+            </if>
+            <if test="columName!=null">
+                colum_name,
+            </if>
+            <if test="titleImg!=null">
+                title_img,
+            </if>
+            <if test="contentImg!=null">
+                content_img,
+            </if>
+            <if test="commentType!=null">
+                comment_type,
+            </if>
+            <if test="userId!=null">
+                user_id,
+            </if>
+            <if test="addtime!=null">
+                addtime,
+            </if>
+            <if test="principalId!=null">
+                principal_id,
+            </if>
+            <if test="scoreSwitch!=null">
+                scoreSwitch_id,
+            </if>
+            <if test="explosionSwitch!=null">
+                explosion_switch,
+            </if>
+            <if test="groupSwitch!=null">
+                group_switch,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="activityTitle!=null">
+                #{activityTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="activityAddress!=null">
+                #{activityAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="activityLng!=null">
+                #{activityLng,jdbcType=VARCHAR},
+            </if>
+            <if test="activityLat!=null">
+                #{activityLat,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime!=null">
+                #{startTime,jdbcType=DATETIME},
+            </if>
+            <if test="signTime!=null">
+                #{signTime,jdbcType=DATETIME},
+            </if>
+            <if test="endTime!=null">
+                #{endTime,jdbcType=DATETIME},
+            </if>
+            <if test="columName!=null">
+                #{columName,jdbcType=VARCHAR},
+            </if>
+            <if test="titleImg!=null">
+                #{titleImg,jdbcType=VARCHAR},
+            </if>
+            <if test="contentImg!=null">
+                #{contentImg,jdbcType=VARCHAR},
+            </if>
+            <if test="commentType!=null">
+                #{commentType,jdbcType=VARCHAR},
+            </if>
+            <if test="userId!=null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="addtime!=null">
+                #{addtime,jdbcType=DATETIME},
+            </if>
+            <if test="principalId!=null">
+                #{principalId,jdbcType=INTEGER},
+            </if>
+            <if test="scoreSwitch!=null">
+                #{scoreSwitch,jdbcType=INTEGER},
+            </if>
+            <if test="explosionSwitch!=null">
+                #{explosionSwitch,jdbcType=INTEGER},
+            </if>
+            <if test="groupSwitch!=null">
+                #{groupSwitch,jdbcType=INTEGER},
+            </if>
+        </trim>
+
+    </insert>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>
