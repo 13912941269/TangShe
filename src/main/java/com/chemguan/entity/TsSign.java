@@ -76,5 +76,17 @@ public class TsSign  implements Serializable{
     @ApiModelProperty(value = "1:正常 2:关闭")
     private Integer signState;
 
+    /** 活动报名费用 */
+    @Transient
+    private ActivityCost activityCost;
+
+    /** 活动 */
+    @Transient
+    private TsActivity tsActivity;
+
+    /** 订单 */
+    @Transient
+    private TsOrder tsOrder;
+
 }
 

@@ -36,7 +36,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("mobile")
-public class MyCenterController {
+public class MySignCenterController {
 
     @Autowired
     private TsUserService tsUserService;
@@ -55,6 +55,9 @@ public class MyCenterController {
 
     @Autowired
     private ActivityTeamService activityTeamService;
+
+    @Autowired
+    private TsOrderService tsOrderService;
 
     @RequestMapping("toMyCenter")
     public ModelAndView toMyCenter(HttpSession session,Integer centertype) {
@@ -267,15 +270,8 @@ public class MyCenterController {
         if(signList.size()>0){
             for (TsSign s:signList) {
                 TsActivity activity = tsActivityService.findById(s.getActivityId());
+                ActivityCost activityCost = activityCostService.findById(s.getCostId());
 
-                Condition condition2 = new Condition(ActivityCost.class);
-                Example.Criteria criteria2 = condition2.createCriteria();
-                criteria2.andEqualTo("activityId", s.getActivityId());
-                List<ActivityCost> activityCosts = activityCostService.findByCondition(condition2);
-
-                if(activityCosts.size()>0){
-                    activity.setActivityCost(activityCosts.get(0));
-                }
 
                 if(s.getPayType()==0){
                     activity.setActiveUserType("待付款");
@@ -311,12 +307,13 @@ public class MyCenterController {
                     activity.setActiveType("未开始");
                 }
 
-                activityList.add(activity);
+               s.setActivityCost(activityCost);
+                s.setTsActivity(activity);
 
             }
         }
 
-        mv.addObject("activityList",activityList);
+        mv.addObject("signList",signList);
 
         mv.setViewName("我参与的活动");
 
@@ -444,136 +441,119 @@ public class MyCenterController {
 
 
     /*
-     * 我的主辦方活动
+     * 报名详情
      */
-    @RequestMapping("toOrganizerActivities")
-    public ModelAndView toOrganizerActivities(HttpSession session,Integer timetype,Integer activitype) {
+    @RequestMapping("toSignInfo")
+    public ModelAndView toMyCollection(HttpSession session,Integer signId) {
         ModelAndView mv = new ModelAndView();
 
         Integer userid = (Integer) session.getAttribute("userid");
 
         TsUser tsUser = tsUserService.findById(userid);
 
-        //timetype:1:1个月2:3个月3:6个月4.6个月前,activitype:1.未開始2.進行中3.已截止4.已結束
+        TsSign tsSign = tsSignService.findById(signId);
 
-        if(timetype==null){
-            timetype = 0;
-        }
+        //门票种类
+        ActivityCost activityCost = activityCostService.findById(tsSign.getCostId());
 
-        if(activitype==null){
-            activitype = 0;
-        }
+        tsSign.setActivityCost(activityCost);
 
-        Date times = new Date();
+        //活动
+        TsActivity activity = tsActivityService.findById(tsSign.getActivityId());
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String nowtime = fmt.format(now);
+        String begintime = fmt.format(activity.getStartTime());
+        String endtime = fmt.format(activity.getEndTime());
+        int start = compare_date(nowtime, begintime);
+        int end = compare_date(endtime, nowtime);
+        if(start==1){
+            if(end==1){
 
-        if(timetype==1){
-            times = DateUtils.stepMonth(-1);
-        }
-
-        if(timetype==2){
-            times = DateUtils.stepMonth(-3);
-        }
-
-        if(timetype==3){
-            times = DateUtils.stepMonth(-6);
-        }
-
-        if(timetype==4){
-            times = DateUtils.stepMonth(-6);
-        }
-
-            Condition condition = new Condition(ActivityTeam.class);
-            Example.Criteria criteria = condition.createCriteria();
-            criteria.andEqualTo("userId",userid);
-
-            if(timetype!=0){
-                if(timetype==4){
-                    criteria.andLessThan("addtime",times);
-                }
-                if(timetype<4){
-                    criteria.andGreaterThan("addtime",times);
-                }
+                activity.setActiveType("进行中");
+            }else{
+                activity.setActiveType("已结束");
             }
+        }else{
 
-            List<ActivityTeam> activityTeams = activityTeamService.findByCondition(condition);
+            activity.setActiveType("未开始");
+        }
+        tsSign.setTsActivity(activity);
 
 
-        List<TsActivity> activityList = new ArrayList<>();
+        Condition condition = new Condition(TsOrder.class);
+        Example.Criteria criteria = condition.createCriteria();
+        criteria.andEqualTo("signUid", signId);
+        List<TsOrder> tsOrderList = tsOrderService.findByCondition(condition);
 
-        if(activityTeams.size()>0){
-            for (ActivityTeam s:activityTeams) {
-                TsActivity activity = tsActivityService.findById(s.getActivityId());
+        if(tsOrderList.size()>0){
+            tsSign.setTsOrder(tsOrderList.get(0));
 
-                if(s.getUserRole()==1){
-                    activity.setActiveUserType("创建者");
-                }
-                if(s.getUserRole()==2){
-                    activity.setActiveUserType("管理者");
-                }
-                if(s.getUserRole()==3){
-                    activity.setActiveUserType("观察者");
-                }
-                if(s.getUserRole()==4){
-                    activity.setActiveUserType("主办方成员");
-                }
-
-                Condition condition3 = new Condition(TsSign.class);
-                Example.Criteria criteria3 = condition3.createCriteria();
-                criteria3.andEqualTo("activityId",s.getActivityId());
-                List<TsSign> tsSignList = tsSignService.findByCondition(condition3);
-                activity.setActivitySignCount(tsSignList.size());
-
-                if(activitype==0){
-                    activityList.add(activity);
-                }
-
-                DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date now = new Date();
-
-                String nowtime = fmt.format(now);
-                //開始時間
-                String begintime = fmt.format(activity.getStartTime());
-                //結束時間
-                String endtime = fmt.format(activity.getEndTime());
-                //截止時間
-                String signTime = fmt.format(activity.getSignTime());
-
-                int start = compare_date(nowtime, begintime);
-                int end = compare_date(endtime, nowtime);
-                int sign = compare_date(signTime, nowtime);
-
-                if(start==1){
-                    if(end==1){
-                        if(sign==1){
-                            activity.setActiveType("进行中");
-                            if(activitype==2){
-                                activityList.add(activity);
-                            }
-                        }else{
-                            activity.setActiveType("已截止");
-                            if(activitype==3){
-                                activityList.add(activity);
-                            }
-                        }
-                    }else{
-                        activity.setActiveType("已结束");
-                        if(activitype==4){
-                            activityList.add(activity);
-                        }
-                    }
-                }else{
-                    activity.setActiveType("未开始");
-                    if(activitype==1){
-                        activityList.add(activity);
-                    }
-                }
-
-            }
         }
 
-        mv.addObject("activityList",activityList);
 
-        mv.setViewName("我的主辦方活动");
+        mv.addObject("tsSign",tsSign);
+
+        mv.setViewName("报名详情");
+
+        return mv;
+    }
+
+    /*
+     * 电子票信息
+     */
+    @RequestMapping("toEticket")
+    public ModelAndView toEticket(HttpSession session,Integer signId) {
+        ModelAndView mv = new ModelAndView();
+
+        Integer userid = (Integer) session.getAttribute("userid");
+
+        TsUser tsUser = tsUserService.findById(userid);
+
+        TsSign tsSign = tsSignService.findById(signId);
+
+        //门票种类
+        ActivityCost activityCost = activityCostService.findById(tsSign.getCostId());
+
+        tsSign.setActivityCost(activityCost);
+
+        //活动
+        TsActivity activity = tsActivityService.findById(tsSign.getActivityId());
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+        String nowtime = fmt.format(now);
+        String begintime = fmt.format(activity.getStartTime());
+        String endtime = fmt.format(activity.getEndTime());
+        int start = compare_date(nowtime, begintime);
+        int end = compare_date(endtime, nowtime);
+        if(start==1){
+            if(end==1){
+
+                activity.setActiveType("进行中");
+            }else{
+                activity.setActiveType("已结束");
+            }
+        }else{
+
+            activity.setActiveType("未开始");
+        }
+        tsSign.setTsActivity(activity);
+
+
+        Condition condition = new Condition(TsOrder.class);
+        Example.Criteria criteria = condition.createCriteria();
+        criteria.andEqualTo("signUid", signId);
+        List<TsOrder> tsOrderList = tsOrderService.findByCondition(condition);
+
+        if(tsOrderList.size()>0){
+            tsSign.setTsOrder(tsOrderList.get(0));
+
+        }
+
+
+        mv.addObject("tsSign",tsSign);
+
+        mv.setViewName("电子票");
 
         return mv;
     }
