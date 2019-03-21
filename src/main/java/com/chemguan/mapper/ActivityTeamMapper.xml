@@ -8,6 +8,7 @@
             <result column="brand_id" jdbcType="INTEGER" property="brandId"/>
             <result column="user_role" jdbcType="INTEGER" property="userRole"/>
             <result column="invit_img" jdbcType="VARCHAR" property="invitImg"/>
+        <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
     </resultMap>
 
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->

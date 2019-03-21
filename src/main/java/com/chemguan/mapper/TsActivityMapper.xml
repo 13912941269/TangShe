@@ -23,5 +23,9 @@
             <result column="group_switch" jdbcType="INTEGER" property="groupSwitch"/>
     </resultMap>
 
+        <select id="findByMap" resultMap="BaseResultMap">
+        SELECT * from ts_activity where activity_id in (SELECT activity_id from ts_collect where user_id = #{userid})
+        </select>
+
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

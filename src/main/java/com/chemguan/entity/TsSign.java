@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import io.swagger.annotations.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
@@ -61,7 +62,7 @@ public class TsSign  implements Serializable{
     private Integer activityId;
     /** 需求 */
     @ApiModelProperty(value = "需求")
-    private  needDesc;
+    private String  needDesc;
     /** 标签值 */
     @ApiModelProperty(value = "标签值")
     private String signNum;

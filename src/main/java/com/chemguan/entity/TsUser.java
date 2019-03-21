@@ -33,7 +33,7 @@ public class TsUser  implements Serializable{
     private Integer userId;
     /** openid */
     @ApiModelProperty(value = "openid")
-    private Integer openid;
+    private String openid;
     /** user_number */
     @ApiModelProperty(value = "user_number")
     private String userNumber;
@@ -70,7 +70,7 @@ public class TsUser  implements Serializable{
     private String city;
     /** 详细地址 */
     @ApiModelProperty(value = "详细地址")
-    private  address;
+    private String  address;
     /** 0：未认证 1:个人认证 2:企业认证 3:组织认证 */
     @ApiModelProperty(value = "0：未认证 1:个人认证 2:企业认证 3:组织认证")
     private Integer authType;
@@ -80,12 +80,8 @@ public class TsUser  implements Serializable{
     /** 真实姓名 */
     @ApiModelProperty(value = "真实姓名")
     private String realName;
-    /** 身份证正面
-身份证正面
-身份证正面 */
-    @ApiModelProperty(value = "身份证正面
-身份证正面
-身份证正面")
+    /** 身份证正面*/
+    @ApiModelProperty(value = "身份证正面 ")
     private String faceImg;
     /** 身份证反面 */
     @ApiModelProperty(value = "身份证反面")
@@ -127,6 +123,16 @@ public class TsUser  implements Serializable{
     @ApiModelProperty(value = "添加时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date addtime;
+
+
+    /** 活动場次 */
+    @Transient
+    private Integer activityCount;
+
+
+    /** 报名人數 */
+    @Transient
+    private Integer signCount;
 
 }
 

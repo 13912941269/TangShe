@@ -46,6 +46,10 @@ public class ActivityTeam  implements Serializable{
     /** 邀请函二维码地址 */
     @ApiModelProperty(value = "邀请函二维码地址")
     private String invitImg;
+    /** 添加时间 */
+    @ApiModelProperty(value = "添加时间")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private Date addtime;
 
 }
 

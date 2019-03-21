@@ -3,7 +3,7 @@
 <mapper namespace="com.chemguan.dao.TsUserRepository">
     <resultMap id="BaseResultMap" type="com.chemguan.entity.TsUser">
             <id column="user_id" jdbcType="INTEGER" property="userId"/>
-            <result column="openid" jdbcType="INTEGER" property="openid"/>
+            <result column="openid" jdbcType="VARCHAR" property="openid"/>
             <result column="user_number" jdbcType="VARCHAR" property="userNumber"/>
             <result column="user_img" jdbcType="VARCHAR" property="userImg"/>
             <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
@@ -34,6 +34,10 @@
             <result column="spomsor_desc" jdbcType="VARCHAR" property="spomsorDesc"/>
             <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
     </resultMap>
+
+        <select id="findByMap" resultMap="BaseResultMap">
+        SELECT * from ts_user where user_id in (SELECT follow_uid from follow_record where user_id = #{userid})
+        </select>
 
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

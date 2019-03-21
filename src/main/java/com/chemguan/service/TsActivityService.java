@@ -2,6 +2,9 @@ package com.chemguan.service;
 import com.chemguan.entity.TsActivity;
 import com.chemguan.business.core.service.Service;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * @Title: TsActivityService
@@ -12,4 +15,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface TsActivityService extends Service<TsActivity> {
 
+    List<TsActivity> findByMap(Map map);
 }

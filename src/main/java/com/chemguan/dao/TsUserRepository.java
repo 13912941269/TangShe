@@ -3,6 +3,9 @@ package com.chemguan.dao;
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.TsUser;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Title: TsUserRepository
  * @ProjectName
@@ -13,5 +16,6 @@ import com.chemguan.entity.TsUser;
 @org.apache.ibatis.annotations.Mapper
 public interface TsUserRepository extends Mapper<TsUser> {
 
+    List<TsUser> findByMap(Map map);
 }
 

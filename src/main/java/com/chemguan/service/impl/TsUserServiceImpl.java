@@ -8,6 +8,8 @@ import com.chemguan.business.core.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,4 +25,8 @@ public class TsUserServiceImpl extends AbstractService<TsUser> implements TsUser
     @Autowired
     private TsUserRepository TsUserRepository;
 
+    @Override
+    public List<TsUser> findByMap(Map map) {
+        return TsUserRepository.findByMap(map);
+    }
 }

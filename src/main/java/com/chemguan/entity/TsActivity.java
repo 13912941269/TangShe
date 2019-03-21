@@ -90,5 +90,22 @@ public class TsActivity  implements Serializable{
     @ApiModelProperty(value = "拼团开关")
     private Integer groupSwitch;
 
+    /** 活动状态 */
+    @Transient
+    private String activeType;
+
+    /** 用户参与活动状态 */
+    @Transient
+    private String activeUserType;
+
+    /** 活动报名费用 */
+    @Transient
+    private ActivityCost activityCost;
+
+    /** 活动报名人数 */
+    @Transient
+    private Integer ActivitySignCount;
+
+
 }
 

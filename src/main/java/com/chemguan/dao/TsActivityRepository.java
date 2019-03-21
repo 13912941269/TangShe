@@ -3,6 +3,9 @@ package com.chemguan.dao;
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.TsActivity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Title: TsActivityRepository
  * @ProjectName
@@ -13,5 +16,6 @@ import com.chemguan.entity.TsActivity;
 @org.apache.ibatis.annotations.Mapper
 public interface TsActivityRepository extends Mapper<TsActivity> {
 
+    List<TsActivity> findByMap(Map map);
 }
 
