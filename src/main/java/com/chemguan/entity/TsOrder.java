@@ -54,7 +54,7 @@ public class TsOrder  implements Serializable{
     private String receiptNumber;
     /** 备注信息 */
     @ApiModelProperty(value = "备注信息")
-    private  orderDesc;
+    private String  orderDesc;
     /** 添加时间 */
     @ApiModelProperty(value = "添加时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

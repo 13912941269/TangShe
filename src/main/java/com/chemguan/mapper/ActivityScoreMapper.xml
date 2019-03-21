@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.ActivityScoreRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.ActivityScore">
+            <id column="score_id" jdbcType="INTEGER" property="scoreId"/>
+            <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+            <result column="user_id" jdbcType="INTEGER" property="userId"/>
+            <result column="score_number" jdbcType="INTEGER" property="scoreNumber"/>
+            <result column="score_desc" jdbcType="VARCHAR" property="scoreDesc"/>
+            <result column="invite_id" jdbcType="INTEGER" property="inviteId"/>
+            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+            <result column="invitees_id" jdbcType="INTEGER" property="inviteesId"/>
+            <result column="score_type" jdbcType="INTEGER" property="scoreType"/>
+    </resultMap>
+
+    <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
+</mapper>

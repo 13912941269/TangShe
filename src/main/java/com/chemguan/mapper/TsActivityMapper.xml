@@ -18,6 +18,9 @@
             <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>
             <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
             <result column="principal_id" jdbcType="INTEGER" property="principalId"/>
+            <result column="score_switch" jdbcType="INTEGER" property="scoreSwitch"/>
+            <result column="explosion_switch" jdbcType="INTEGER" property="explosionSwitch"/>
+            <result column="group_switch" jdbcType="INTEGER" property="groupSwitch"/>
     </resultMap>
 
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->

@@ -80,6 +80,15 @@ public class TsActivity  implements Serializable{
     /** 负责人 */
     @ApiModelProperty(value = "负责人")
     private Integer principalId;
+    /** 积分开关 */
+    @ApiModelProperty(value = "积分开关")
+    private Integer scoreSwitch;
+    /** 爆款开关 */
+    @ApiModelProperty(value = "爆款开关")
+    private Integer explosionSwitch;
+    /** 拼团开关 */
+    @ApiModelProperty(value = "拼团开关")
+    private Integer groupSwitch;
 
 }
 

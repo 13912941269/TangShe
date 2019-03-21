@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chemguan.dao.TsCommodityRepository">
+    <resultMap id="BaseResultMap" type="com.chemguan.entity.TsCommodity">
+            <id column="commodity_id" jdbcType="INTEGER" property="commodityId"/>
+            <result column="commodity_img" jdbcType="VARCHAR" property="commodityImg"/>
+            <result column="commodity_desc" jdbcType="VARCHAR" property="commodityDesc"/>
+            <result column="old_price" jdbcType="DOUBLE" property="oldPrice"/>
+            <result column="new_price" jdbcType="DOUBLE" property="newPrice"/>
+    </resultMap>
+
+
+</mapper>
