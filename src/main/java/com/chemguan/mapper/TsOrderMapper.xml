@@ -10,7 +10,7 @@
             <result column="team_uid" jdbcType="INTEGER" property="teamUid"/>
             <result column="sign_did" jdbcType="INTEGER" property="signDid"/>
             <result column="receipt_number" jdbcType="VARCHAR" property="receiptNumber"/>
-            <result column="order_desc" jdbcType="LONGTEXT" property="orderDesc"/>
+            <result column="order_desc" jdbcType="VARCHAR" property="orderDesc"/>
             <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
             <result column="order_state" jdbcType="INTEGER" property="orderState"/>
     </resultMap>

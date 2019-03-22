@@ -1,0 +1,22 @@
+#报名
+sign.score: 300
+#点赞
+give.score: 20
+#连续点赞2天
+give.score.two: 10
+#连续点赞4天
+give.score.four: 20
+#连续点赞6天
+give.score.six: 40
+#连续点赞8天
+give.score.eight: 60
+#连续点赞10天
+give.score.ten: 80
+#连续点赞12天
+give.score.twelve: 100
+#阅读奖励
+give.read: 10
+#阅读奖励积分总上限
+give.read_total: 3000
+#邀请报名奖励人数上线
+give.invite:

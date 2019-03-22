@@ -12,7 +12,7 @@
             <result column="cus_name" jdbcType="VARCHAR" property="cusName"/>
             <result column="cus_phone" jdbcType="VARCHAR" property="cusPhone"/>
             <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
-            <result column="need_desc" jdbcType="LONGTEXT" property="needDesc"/>
+            <result column="need_desc" jdbcType="VARCHAR" property="needDesc"/>
             <result column="sign_num" jdbcType="VARCHAR" property="signNum"/>
             <result column="sign_code" jdbcType="VARCHAR" property="signCode"/>
             <result column="code_type" jdbcType="INTEGER" property="codeType"/>

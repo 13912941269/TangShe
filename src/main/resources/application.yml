@@ -36,7 +36,7 @@ spring:
             pool-prepared-statements: false
             max-pool-prepared-statement-per-connection-size: 20
     profiles:
-      active: wxinfo
+      active: config
     resources:
       static-locations: classpath:/static
     servlet:

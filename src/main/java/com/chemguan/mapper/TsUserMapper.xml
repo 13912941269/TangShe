@@ -15,7 +15,7 @@
             <result column="birthday" jdbcType="TIMESTAMP" property="birthday"/>
             <result column="province" jdbcType="VARCHAR" property="province"/>
             <result column="city" jdbcType="VARCHAR" property="city"/>
-            <result column="address" jdbcType="LONGTEXT" property="address"/>
+            <result column="address" jdbcType="VARCHAR" property="address"/>
             <result column="auth_type" jdbcType="INTEGER" property="authType"/>
             <result column="certify_numebr" jdbcType="VARCHAR" property="certifyNumebr"/>
             <result column="real_name" jdbcType="VARCHAR" property="realName"/>
