@@ -57,4 +57,4 @@ pagehelper:
     params: count=countSql
 
 fileinfo:
-    imgRoot: F:/projectimg/
+    imgRoot: E:/projectimg/

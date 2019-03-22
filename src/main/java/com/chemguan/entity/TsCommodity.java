@@ -42,6 +42,9 @@ public class TsCommodity implements Serializable{
     /** new_price */
     @ApiModelProperty(value = "优惠价")
     private Double newPrice;
+    /** commodity_type */
+    @ApiModelProperty(value = "0:爆款1：拼团")
+    private Integer commodityType;
 
 
 }
