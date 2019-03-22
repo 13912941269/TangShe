@@ -343,18 +343,53 @@ public class MyOrganizerCenterController {
     }
 
     /*
-     * 手动验票
+     * 手动验票接口
      */
     @RequestMapping("toManualTicket")
     public ModelAndView toManualTicket(HttpSession session,Integer activityId,String signinfo) {
         ModelAndView mv = new ModelAndView(new MappingJackson2JsonView());
+        Integer userid = (Integer) session.getAttribute("userid");
 
+        Condition condition3 = new Condition(TsSign.class);
+        Example.Criteria criteria3 = condition3.createCriteria();
+        criteria3.andEqualTo("activityId",activityId);
+        criteria3.andEqualTo("codeType",0);
+        criteria3.andEqualTo("payType",1);
+        criteria3.andEqualTo("signCode",signinfo).orEqualTo("signNum",signinfo).orEqualTo("cusPhone",signinfo);
+        List<TsSign> tsSignList = tsSignService.findByCondition(condition3);
 
+        if(tsSignList.size()>0){
+            tsSignList.get(0).setCodeType(1);
+            tsSignService.update(tsSignList.get(0));
+        }
 
-        mv.addObject("success",activityId);
+        //0:输入错误或已经验过1：验票成功
+        mv.addObject("signcount",tsSignList);
+        mv.addObject("signId",tsSignList.get(0).getSignId());
 
         return mv;
     }
 
+    /*
+     * 验票成功
+     */
+    @RequestMapping("toTicketSuccess")
+    public ModelAndView toTicketSuccess(HttpSession session,Integer signId) {
+        ModelAndView mv = new ModelAndView();
+        Integer userid = (Integer) session.getAttribute("userid");
+
+        TsSign tsSign = tsSignService.findById(signId);
+
+        TsActivity tsActivity = tsActivityService.findById(tsSign.getActivityId());
+        ActivityCost activityCost = activityCostService.findById(tsSign.getCostId());
+        tsSign.setActivityCost(activityCost);
+        tsSign.setTsActivity(tsActivity);
+
+        mv.addObject("tsSign",tsSign);
+
+        mv.setViewName("验票成功");
+
+        return mv;
+    }
 
 }
