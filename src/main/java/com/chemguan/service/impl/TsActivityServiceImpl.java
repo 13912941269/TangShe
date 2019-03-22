@@ -34,4 +34,9 @@ public class TsActivityServiceImpl extends AbstractService<TsActivity> implement
     public void insertactivity(TsActivity tsActivity) {
         TsActivityRepository.insertactivity(tsActivity);
     }
+
+    @Override
+    public TsActivity findbysaveact(Integer userId) {
+        return TsActivityRepository.findbysaveact(userId);
+    }
 }

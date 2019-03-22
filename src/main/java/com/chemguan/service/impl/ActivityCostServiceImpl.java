@@ -23,4 +23,8 @@ public class ActivityCostServiceImpl extends AbstractService<ActivityCost> imple
     @Autowired
     private ActivityCostRepository ActivityCostRepository;
 
+    @Override
+    public void insertactcost(ActivityCost activityCost) {
+        ActivityCostRepository.insertactcost(activityCost);
+    }
 }

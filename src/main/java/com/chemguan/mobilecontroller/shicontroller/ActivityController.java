@@ -8,6 +8,7 @@ import com.chemguan.entity.TsActivity;
 import com.chemguan.service.ActivityCostService;
 import com.chemguan.service.ActivitySignService;
 import com.chemguan.service.TsActivityService;
+import com.chemguan.util.Position;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * @Title: TsUserModelController
@@ -41,19 +43,59 @@ public class ActivityController {
     @Autowired
     private ActivitySignService activitySignService;
 
+
     /**
-     * 添加活动页面
+     * 添加/修改 活动页面
+     * activityId   活动id
      * @return
      */
-    @RequestMapping("addactpage")
-    public ModelAndView addActPage() {
+    @RequestMapping("editactpage")
+    public ModelAndView editActPage(HttpServletRequest request,Integer activityId) {
+        Integer userId = (Integer) request.getSession().getAttribute("userid");
+        ModelAndView mv=new ModelAndView();
+        TsActivity tsActivity =null;
+        if(activityId==null){
+            tsActivity=tsActivityService.findbysaveact(userId);
+            if(tsActivity==null){
+                tsActivity=new TsActivity();
+                tsActivity.setUserId(userId);
+                tsActivity.setAddtime(new Date());
+                tsActivity.setActivityState(0);
+                tsActivityService.insertactivity(tsActivity);
+            }
+        }else{
+            tsActivity=tsActivityService.findById(activityId);
+        }
+        mv.addObject("tsActivity",tsActivity);
 
-        return new ModelAndView("");
+        mv.setViewName("");
+        return mv;
     }
 
 
+
+
+
     /**
-     * 添加活动
+     * 设置封面页面
+     * activityId
+     * @return
+     */
+    @RequestMapping("edittitleimg")
+    public ModelAndView editTitleImg(Integer activityId,String costIds,Integer signId) {
+        ModelAndView mv=new ModelAndView();
+
+        mv.setViewName("");
+        return mv;
+    }
+
+
+
+
+
+
+    /**
+     * 发布活动
      * @param activityTitle 活动名称
      * @param activityAddress   活动地址
      * @param startTime 开始时间
@@ -69,7 +111,8 @@ public class ActivityController {
      */
     @RequestMapping("addact")
     public Result addAct(HttpServletRequest request,
-                            String activityTitle,
+                         Integer activityId,
+                         String activityTitle,
                          String activityAddress,
                          String startTime,
                          String signTime,
@@ -82,8 +125,7 @@ public class ActivityController {
                          Integer commentType,
                          Integer scoreSwitch,
                          Integer explosionSwitch,
-                         Integer groupSwitch
-                               ) throws ParseException {
+                         Integer groupSwitch) throws ParseException {
         Integer userId = (Integer) request.getSession().getAttribute("userid");
         SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -127,7 +169,8 @@ public class ActivityController {
             return ResultGenerator.genFailResult("请设置报名信息");
         }
 
-        TsActivity tsActivity=new TsActivity();
+        TsActivity tsActivity=tsActivityService.findById(activityId);
+
         tsActivity.setActivityTitle(activityTitle);
         tsActivity.setActivityAddress(activityAddress);
         tsActivity.setStartTime(sim.parse(startTime));
@@ -142,6 +185,14 @@ public class ActivityController {
         tsActivity.setScoreSwitch(scoreSwitch);
         tsActivity.setExplosionSwitch(explosionSwitch);
         tsActivity.setGroupSwitch(groupSwitch);
+
+        //根据地址计算经纬度
+        Map mapAddress = Position.getCoordinate(activityAddress);
+        if(mapAddress!=null){
+            tsActivity.setActivityLng((String)mapAddress.get("lng"));
+            tsActivity.setActivityLat((String)mapAddress.get("lat"));
+        }
+
         tsActivityService.insertactivity(tsActivity);
 
 
@@ -164,4 +215,54 @@ public class ActivityController {
 
         return ResultGenerator.genSuccessResult();
     }
+
+
+
+
+
+
+    /**
+     * 添加报名费用页面
+     * @return
+     */
+    @RequestMapping("addactcostpage")
+    public ModelAndView addActCostPage(Integer activityId) {
+        ModelAndView mv=new ModelAndView();
+        mv.addObject("activityId",activityId);
+        mv.setViewName("");
+        return mv;
+    }
+
+
+    /**
+     * 添加报名费用
+     * @return
+     */
+    @RequestMapping("addactcost")
+    public Result addActCost(ActivityCost activityCost) {
+        if(activityCost.getActivityId()==null){
+            return ResultGenerator.genFailResult("未关联活动id！");
+        }
+
+        if(activityCost.getCostMoney()==null){
+            return ResultGenerator.genFailResult("金额不得为空！");
+        }
+
+        if(StringUtils.isEmpty(activityCost.getCostName())){
+            return ResultGenerator.genFailResult("门票名称不得为空！");
+        }
+
+        if(activityCost.getCostNum()==null){
+            return ResultGenerator.genFailResult("人数限制不得为空！");
+        }
+        activityCostService.save(activityCost);
+        return ResultGenerator.genSuccessResult(activityCost.getActivityId());
+    }
+
+
+
+
+
+
+
 }

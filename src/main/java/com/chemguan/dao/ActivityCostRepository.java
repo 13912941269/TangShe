@@ -13,5 +13,6 @@ import com.chemguan.entity.ActivityCost;
 @org.apache.ibatis.annotations.Mapper
 public interface ActivityCostRepository extends Mapper<ActivityCost> {
 
+    void insertactcost(ActivityCost activityCost);
 }
 

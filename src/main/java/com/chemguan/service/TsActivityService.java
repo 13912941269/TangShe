@@ -18,4 +18,6 @@ public interface TsActivityService extends Service<TsActivity> {
     List<TsActivity> findByMap(Map map);
 
     void insertactivity(TsActivity tsActivity);
+
+    TsActivity findbysaveact(Integer userId);
 }

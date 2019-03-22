@@ -19,5 +19,7 @@ public interface TsActivityRepository extends Mapper<TsActivity> {
     List<TsActivity> findByMap(Map map);
 
     void insertactivity(TsActivity tsActivity);
+
+    TsActivity findbysaveact(Integer userId);
 }
 

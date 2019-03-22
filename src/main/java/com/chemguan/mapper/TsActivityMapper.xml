@@ -2,30 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chemguan.dao.TsActivityRepository">
     <resultMap id="BaseResultMap" type="com.chemguan.entity.TsActivity">
-            <id column="activity_id" jdbcType="INTEGER" property="activityId"/>
-            <result column="activity_title" jdbcType="VARCHAR" property="activityTitle"/>
-            <result column="activity_address" jdbcType="VARCHAR" property="activityAddress"/>
-            <result column="activity_lng" jdbcType="VARCHAR" property="activityLng"/>
-            <result column="activity_lat" jdbcType="VARCHAR" property="activityLat"/>
-            <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
-            <result column="sign_time" jdbcType="TIMESTAMP" property="signTime"/>
-            <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
-            <result column="colum_name" jdbcType="VARCHAR" property="columName"/>
-            <result column="title_img" jdbcType="TEXT" property="titleImg"/>
-            <result column="content_img" jdbcType="TEXT" property="contentImg"/>
-            <result column="comment_type" jdbcType="INTEGER" property="commentType"/>
-            <result column="user_id" jdbcType="INTEGER" property="userId"/>
-            <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>
-            <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
-            <result column="principal_id" jdbcType="INTEGER" property="principalId"/>
-            <result column="score_switch" jdbcType="INTEGER" property="scoreSwitch"/>
-            <result column="explosion_switch" jdbcType="INTEGER" property="explosionSwitch"/>
-            <result column="group_switch" jdbcType="INTEGER" property="groupSwitch"/>
+        <id column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="activity_title" jdbcType="VARCHAR" property="activityTitle"/>
+        <result column="activity_address" jdbcType="VARCHAR" property="activityAddress"/>
+        <result column="activity_lng" jdbcType="VARCHAR" property="activityLng"/>
+        <result column="activity_lat" jdbcType="VARCHAR" property="activityLat"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="sign_time" jdbcType="TIMESTAMP" property="signTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="colum_name" jdbcType="VARCHAR" property="columName"/>
+        <result column="title_img" jdbcType="TEXT" property="titleImg"/>
+        <result column="content_img" jdbcType="TEXT" property="contentImg"/>
+        <result column="comment_type" jdbcType="INTEGER" property="commentType"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="qr_code" jdbcType="VARCHAR" property="qrCode"/>
+        <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
+        <result column="principal_id" jdbcType="INTEGER" property="principalId"/>
+        <result column="score_switch" jdbcType="INTEGER" property="scoreSwitch"/>
+        <result column="explosion_switch" jdbcType="INTEGER" property="explosionSwitch"/>
+        <result column="group_switch" jdbcType="INTEGER" property="groupSwitch"/>
+        <result column="activity_state" jdbcType="INTEGER" property="activityState"/>
     </resultMap>
 
-        <select id="findByMap" resultMap="BaseResultMap">
-        SELECT * from ts_activity where activity_id in (SELECT activity_id from ts_collect where user_id = #{userid})
-        </select>
+    <select id="findByMap" resultMap="BaseResultMap">
+    SELECT * from ts_activity where activity_id in (SELECT activity_id from ts_collect where user_id = #{userid})
+    </select>
+
+
+
+    <select id="findbysaveact" resultMap="BaseResultMap">
+        SELECT * from ts_activity where user_id=#{userId} and activity_state=0 limit 0,1
+    </select>
 
 
     <insert id="insertactivity" keyProperty="activityId" useGeneratedKeys="true">
@@ -82,6 +89,10 @@
             <if test="groupSwitch!=null">
                 group_switch,
             </if>
+            <if test="activityState!=null">
+                activity_state,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
             <if test="activityTitle!=null">
@@ -134,6 +145,9 @@
             </if>
             <if test="groupSwitch!=null">
                 #{groupSwitch,jdbcType=INTEGER},
+            </if>
+            <if test="activityState!=null">
+                #{activityState,jdbcType=INTEGER},
             </if>
         </trim>
 

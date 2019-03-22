@@ -12,4 +12,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface ActivityCostService extends Service<ActivityCost> {
 
+    void insertactcost(ActivityCost activityCost);
 }

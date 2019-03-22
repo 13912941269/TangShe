@@ -9,5 +9,38 @@
             <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
     </resultMap>
 
+
+    <insert id="insertactcost" keyProperty="costId" useGeneratedKeys="true">
+        insert into activity_cost
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="costName!=null">
+                cost_name,
+            </if>
+            <if test="costMoney!=null">
+                cost_money,
+            </if>
+            <if test="costNum!=null">
+                cost_num,
+            </if>
+            <if test="activityId!=null">
+                activity_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="costName!=null">
+                #{costName,jdbcType=VARCHAR},
+            </if>
+            <if test="costMoney!=null">
+                #{costMoney,jdbcType=DOUBLE},
+            </if>
+            <if test="costNum!=null">
+                #{costNum,jdbcType=INTEGER},
+            </if>
+            <if test="activityId!=null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>
