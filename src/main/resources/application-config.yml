@@ -17,6 +17,27 @@ give.score.twelve: 100
 #阅读奖励
 give.read: 10
 #阅读奖励积分总上限
-give.read_total: 3000
+give.read.total: 3000
+
 #邀请报名奖励人数上线
-give.invite:
+give.invite.num: 20
+#邀请报名奖励
+give.invite: 300
+#邀请报名奖励2人
+give.invite.two: 100
+#邀请报名奖励4人
+give.invite.four: 150
+#邀请报名奖励6人
+give.invite.six: 200
+#邀请报名奖励8人
+give.invite.eight: 250
+#邀请报名奖励10人
+give.invite.ten: 300
+
+#签到验票奖励
+give.sign: 300
+
+#一级推荐奖励
+give.recommend.one: 300
+#二级推荐奖励
+give.recommend.two: 150

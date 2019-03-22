@@ -340,6 +340,9 @@ public class ActivityController {
 
     /**
      * 添加报名设置
+     * activityId 活动id
+     * activitySign 报名参数
+     * tags 标签
      * @return
      */
     @RequestMapping("addactsign")
