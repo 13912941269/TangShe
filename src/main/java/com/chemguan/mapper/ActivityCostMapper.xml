@@ -10,6 +10,14 @@
     </resultMap>
 
 
+
+
+    <select id="findbyactid" resultMap="BaseResultMap">
+      select * from activity_cost where activity_id=#{activityId}
+    </select>
+
+
+
     <insert id="insertactcost" keyProperty="costId" useGeneratedKeys="true">
         insert into activity_cost
         <trim prefix="(" suffix=")" suffixOverrides=",">

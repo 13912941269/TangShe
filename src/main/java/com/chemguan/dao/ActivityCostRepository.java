@@ -3,6 +3,8 @@ package com.chemguan.dao;
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.ActivityCost;
 
+import java.util.List;
+
 /**
  * @Title: ActivityCostRepository
  * @ProjectName
@@ -14,5 +16,7 @@ import com.chemguan.entity.ActivityCost;
 public interface ActivityCostRepository extends Mapper<ActivityCost> {
 
     void insertactcost(ActivityCost activityCost);
+
+    List<ActivityCost> findbyactid(Integer activityId);
 }
 

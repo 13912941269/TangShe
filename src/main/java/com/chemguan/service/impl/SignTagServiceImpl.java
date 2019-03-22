@@ -8,6 +8,7 @@ import com.chemguan.business.core.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 
 /**
@@ -23,4 +24,13 @@ public class SignTagServiceImpl extends AbstractService<SignTag> implements Sign
     @Autowired
     private SignTagRepository SignTagRepository;
 
+    @Override
+    public List<SignTag> findbysign(Integer signId) {
+        return SignTagRepository.findbysign(signId);
+    }
+
+    @Override
+    public void deletebysign(Integer signId) {
+        SignTagRepository.deletebysign(signId);
+    }
 }

@@ -4,11 +4,14 @@ import com.chemguan.business.core.results.Result;
 import com.chemguan.business.core.results.ResultGenerator;
 import com.chemguan.entity.ActivityCost;
 import com.chemguan.entity.ActivitySign;
+import com.chemguan.entity.SignTag;
 import com.chemguan.entity.TsActivity;
 import com.chemguan.service.ActivityCostService;
 import com.chemguan.service.ActivitySignService;
+import com.chemguan.service.SignTagService;
 import com.chemguan.service.TsActivityService;
 import com.chemguan.util.Position;
+import io.swagger.models.auth.In;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +46,9 @@ public class ActivityController {
 
     @Autowired
     private ActivitySignService activitySignService;
+
+    @Autowired
+    private SignTagService signTagService;
 
 
     /**
@@ -66,8 +73,20 @@ public class ActivityController {
         }else{
             tsActivity=tsActivityService.findById(activityId);
         }
-        mv.addObject("tsActivity",tsActivity);
 
+        //判断是否设置报名
+        ActivitySign activitySign = activitySignService.findbyactid(activityId);
+        if(activitySign!=null){
+            tsActivity.setSetSignType(1);
+        }
+
+        //判断是否设置费用
+        List<ActivityCost> listCost = activityCostService.findbyactid(activityId);
+        if(listCost==null||listCost.size()==0){
+            tsActivity.setSetCostType(1);
+        }
+
+        mv.addObject("tsActivity",tsActivity);
         mv.setViewName("");
         return mv;
     }
@@ -81,16 +100,37 @@ public class ActivityController {
      * activityId
      * @return
      */
-    @RequestMapping("edittitleimg")
-    public ModelAndView editTitleImg(Integer activityId,String costIds,Integer signId) {
+    @RequestMapping("edittitleimgpage")
+    public ModelAndView editTitleImgPage(Integer activityId) {
         ModelAndView mv=new ModelAndView();
-
+        TsActivity tsActivity = tsActivityService.findById(activityId);
+        mv.addObject("tsActivity",tsActivity);
         mv.setViewName("");
         return mv;
     }
 
 
-
+    /**
+     * 设置封面
+     * activityId
+     * imgs 图片集合
+     * type 1:封面图片 2:详情图片
+     * @return
+     */
+    @RequestMapping("edittitleimg")
+    public Result editTitleImg(Integer activityId, String imgs,Integer type) {
+        if(activityId==null){
+            return ResultGenerator.genFailResult("活动参数为空！");
+        }
+        TsActivity tsActivity = tsActivityService.findById(activityId);
+        if(type==1){
+            tsActivity.setTitleImg(imgs);
+        }else{
+            tsActivity.setContentImg(imgs);
+        }
+        tsActivityService.update(tsActivity);
+        return ResultGenerator.genSuccessResult(activityId);
+    }
 
 
 
@@ -228,6 +268,9 @@ public class ActivityController {
     @RequestMapping("addactcostpage")
     public ModelAndView addActCostPage(Integer activityId) {
         ModelAndView mv=new ModelAndView();
+        //查询已添加的报名设置信息
+        List<ActivityCost> costList = activityCostService.findbyactid(activityId);
+        mv.addObject("costList",costList);
         mv.addObject("activityId",activityId);
         mv.setViewName("");
         return mv;
@@ -239,27 +282,88 @@ public class ActivityController {
      * @return
      */
     @RequestMapping("addactcost")
-    public Result addActCost(ActivityCost activityCost) {
-        if(activityCost.getActivityId()==null){
-            return ResultGenerator.genFailResult("未关联活动id！");
+    public Result addActCost(Integer activityId,String[] costId,String[] costMoney,String[] costName,String[] costNum) {
+        if(activityId==null){
+            return ResultGenerator.genFailResult("参数有误！");
         }
-
-        if(activityCost.getCostMoney()==null){
-            return ResultGenerator.genFailResult("金额不得为空！");
+        if(costMoney==null||costName==null||costNum==null){
+            return ResultGenerator.genFailResult("报名参数有误！");
         }
-
-        if(StringUtils.isEmpty(activityCost.getCostName())){
-            return ResultGenerator.genFailResult("门票名称不得为空！");
+        for(int i=0;i<costName.length;i++){
+            ActivityCost activityCost = activityCostService.findById(Integer.parseInt(costId[i]));
+            if(activityCost==null){
+                activityCost=new ActivityCost();
+                activityCost.setCostName(costName[i]);
+                activityCost.setCostNum(Integer.parseInt(costNum[i]));
+                activityCost.setCostMoney(Double.parseDouble(costMoney[i]));
+                activityCost.setActivityId(activityId);
+                activityCostService.save(activityCost);
+            }else{
+                activityCost.setCostName(costName[i]);
+                activityCost.setCostNum(Integer.parseInt(costNum[i]));
+                activityCost.setCostMoney(Double.parseDouble(costMoney[i]));
+                activityCost.setActivityId(activityId);
+                activityCostService.update(activityCost);
+            }
         }
-
-        if(activityCost.getCostNum()==null){
-            return ResultGenerator.genFailResult("人数限制不得为空！");
-        }
-        activityCostService.save(activityCost);
-        return ResultGenerator.genSuccessResult(activityCost.getActivityId());
+        return ResultGenerator.genSuccessResult(activityId);
     }
 
 
+
+
+
+    /**
+     * 报名设置页面
+     * @return
+     */
+    @RequestMapping("addactsignpage")
+    public ModelAndView addActSignPage(Integer activityId) {
+        ModelAndView mv=new ModelAndView();
+        //查询报名设置
+        if(activityId!=null){
+            ActivitySign activitySign = activitySignService.findbyactid(activityId);
+            mv.addObject("activitySign",activitySign);
+            //查询报名设置标签
+            if(activitySign!=null){
+                List<SignTag> signList = signTagService.findbysign(activitySign.getSignId());
+                mv.addObject("signList",signList);
+            }
+        }
+        mv.addObject("activityId",activityId);
+        mv.setViewName("");
+        return mv;
+    }
+
+
+
+
+    /**
+     * 添加报名设置
+     * @return
+     */
+    @RequestMapping("addactsign")
+    public Result addActSign(Integer activityId,ActivitySign activitySign,String[] tags) {
+        if(activityId==null){
+            return ResultGenerator.genFailResult("活动参数为空！");
+        }
+        if(activitySign.getSignId()!=null){
+            activitySignService.update(activitySign);
+        }else{
+            activitySign.setActivityId(activityId);
+            activitySignService.insertactsign(activitySign);
+        }
+        signTagService.deletebysign(activitySign.getSignId());
+        if(tags!=null){
+            for(int i=0;i<tags.length;i++){
+                SignTag signTag=new SignTag();
+                signTag.setTagName(tags[i]);
+                signTag.setSignId(activitySign.getSignId());
+                signTagService.save(signTag);
+            }
+        }
+        return ResultGenerator.genSuccessResult(activityId);
+    }
 
 
 

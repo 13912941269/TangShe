@@ -13,5 +13,8 @@ import com.chemguan.entity.ActivitySign;
 @org.apache.ibatis.annotations.Mapper
 public interface ActivitySignRepository extends Mapper<ActivitySign> {
 
+    ActivitySign findbyactid(Integer activityId);
+
+    void insertactsign(ActivitySign activitySign);
 }
 

@@ -23,4 +23,13 @@ public class ActivitySignServiceImpl extends AbstractService<ActivitySign> imple
     @Autowired
     private ActivitySignRepository ActivitySignRepository;
 
+    @Override
+    public ActivitySign findbyactid(Integer activityId) {
+        return ActivitySignRepository.findbyactid(activityId);
+    }
+
+    @Override
+    public void insertactsign(ActivitySign activitySign) {
+        ActivitySignRepository.insertactsign(activitySign);
+    }
 }

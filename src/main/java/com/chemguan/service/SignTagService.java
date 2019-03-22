@@ -2,6 +2,8 @@ package com.chemguan.service;
 import com.chemguan.entity.SignTag;
 import com.chemguan.business.core.service.Service;
 
+import java.util.List;
+
 
 /**
  * @Title: SignTagService
@@ -12,4 +14,8 @@ import com.chemguan.business.core.service.Service;
  */
 public interface SignTagService extends Service<SignTag> {
 
+
+    List<SignTag> findbysign(Integer signId);
+
+    void deletebysign(Integer signId);
 }

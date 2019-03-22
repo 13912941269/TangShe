@@ -12,4 +12,7 @@ import com.chemguan.business.core.service.Service;
  */
 public interface ActivitySignService extends Service<ActivitySign> {
 
+    ActivitySign findbyactid(Integer activityId);
+
+    void insertactsign(ActivitySign activitySign);
 }

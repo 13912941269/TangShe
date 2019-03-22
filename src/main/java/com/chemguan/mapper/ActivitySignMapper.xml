@@ -11,5 +11,54 @@
             <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
     </resultMap>
 
+
+    <select id="findbyactid" resultMap="BaseResultMap">
+      select * from activity_sign where activity_id=#{activityId} limit 0,1
+    </select>
+
+
+    <insert id="insertactsign" keyProperty="signId" useGeneratedKeys="true">
+        insert into activity_sign
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="signTel!=null">
+                sign_tel,
+            </if>
+            <if test="peopleType!=null">
+                people_type,
+            </if>
+            <if test="mainType!=null">
+                main_type,
+            </if>
+            <if test="tickketAuto!=null">
+                tickket_auto,
+            </if>
+            <if test="payType!=null">
+                pay_type,
+            </if>
+            <if test="activityId!=null">
+                activity_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="signTel!=null">
+                #{signTel,jdbcType=VARCHAR},
+            </if>
+            <if test="peopleType!=null">
+                #{peopleType,jdbcType=INTEGER},
+            </if>
+            <if test="mainType!=null">
+                #{mainType,jdbcType=INTEGER},
+            </if>
+            <if test="tickketAuto!=null">
+                #{tickketAuto,jdbcType=INTEGER},
+            </if>
+            <if test="payType!=null">
+                #{payType,jdbcType=INTEGER},
+            </if>
+            <if test="activityId!=null">
+                #{activityId,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

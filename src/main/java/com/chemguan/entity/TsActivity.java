@@ -111,5 +111,16 @@ public class TsActivity  implements Serializable{
     private Integer ActivitySignCount;
 
 
+    /**
+     * 是否设置报名费用
+     */
+    @Transient
+    private Integer setCostType;
+
+    /**
+     * 是否设置报名
+     */
+    @Transient
+    private Integer setSignType;
 }
 

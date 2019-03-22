@@ -8,6 +8,7 @@ import com.chemguan.business.core.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 
 /**
@@ -26,5 +27,10 @@ public class ActivityCostServiceImpl extends AbstractService<ActivityCost> imple
     @Override
     public void insertactcost(ActivityCost activityCost) {
         ActivityCostRepository.insertactcost(activityCost);
+    }
+
+    @Override
+    public List<ActivityCost> findbyactid(Integer activityId) {
+        return ActivityCostRepository.findbyactid(activityId);
     }
 }

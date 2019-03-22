@@ -7,5 +7,14 @@
             <result column="sign_id" jdbcType="INTEGER" property="signId"/>
     </resultMap>
 
+
+    <select id="findbysign" resultMap="BaseResultMap">
+        select * from sign_tag where sign_id=#{signId}
+    </select>
+
+
+    <delete id="deletebysign">
+        delete from sign_tag where sign_id=#{signId}
+    </delete>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

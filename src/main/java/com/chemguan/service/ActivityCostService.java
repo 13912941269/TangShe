@@ -2,6 +2,8 @@ package com.chemguan.service;
 import com.chemguan.entity.ActivityCost;
 import com.chemguan.business.core.service.Service;
 
+import java.util.List;
+
 
 /**
  * @Title: ActivityCostService
@@ -13,4 +15,6 @@ import com.chemguan.business.core.service.Service;
 public interface ActivityCostService extends Service<ActivityCost> {
 
     void insertactcost(ActivityCost activityCost);
+
+    List<ActivityCost> findbyactid(Integer activityId);
 }
