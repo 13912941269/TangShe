@@ -13,5 +13,6 @@ import com.chemguan.entity.TsRead;
 @org.apache.ibatis.annotations.Mapper
 public interface TsReadRepository extends Mapper<TsRead> {
 
+    Integer findreadcount(Integer activityId);
 }
 

@@ -26,6 +26,10 @@ import java.util.Map;
 @Transactional
 public class TsCommodityServiceImpl extends AbstractService<TsCommodity> implements TsCommodityService {
     @Autowired
-    private TsCommodityRepository TsCommodityRepository;
+    private TsCommodityRepository tsCommodityRepository;
 
+    @Override
+    public List<TsCommodity> findbytype(Integer commodityType) {
+        return tsCommodityRepository.findbytype(commodityType);
+    }
 }

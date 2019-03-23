@@ -40,9 +40,14 @@ public class ActivityTeam  implements Serializable{
     /** 品牌id */
     @ApiModelProperty(value = "品牌id")
     private Integer brandId;
-    /** 角色 1:创建者 2:管理者 3:观察者 4：主办方成员 */
-    @ApiModelProperty(value = "角色 1:创建者 2:管理者 3:观察者 4：主办方成员")
+    /** 角色 1:创建者 2:管理者 3:观察者 4：主办方成员 5:普通用户*/
+    @ApiModelProperty(value = "角色 1:创建者 2:管理者 3:观察者 4：主办方成员 5:普通用户")
     private Integer userRole;
+
+    /** 推荐人 */
+    @ApiModelProperty(value = "推荐人")
+    private Integer recommendUid;
+
     /** 邀请函二维码地址 */
     @ApiModelProperty(value = "邀请函二维码地址")
     private String invitImg;

@@ -16,4 +16,6 @@ import java.util.Map;
 public interface TsUserService extends Service<TsUser> {
 
     List<TsUser> findByMap(Map map);
+
+    TsUser findbyphone(String userPhone);
 }

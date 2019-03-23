@@ -88,5 +88,8 @@ public class TsSign  implements Serializable{
     @Transient
     private TsOrder tsOrder;
 
+    /** 报名用户 */
+    @Transient
+    private TsUser tsUser;
 }
 

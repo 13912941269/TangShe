@@ -36,8 +36,12 @@
     </resultMap>
 
         <select id="findByMap" resultMap="BaseResultMap">
-        SELECT * from ts_user where user_id in (SELECT follow_uid from follow_record where user_id = #{userid})
+          select * from ts_user where user_id in (SELECT follow_uid from follow_record where user_id = #{userid})
         </select>
 
+
+        <select id="findbyphone" resultMap="BaseResultMap">
+          select * from ts_user where user_phone=#{userPhone} limit 0,1
+        </select>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

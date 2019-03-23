@@ -17,5 +17,7 @@ import java.util.Map;
 public interface TsUserRepository extends Mapper<TsUser> {
 
     List<TsUser> findByMap(Map map);
+
+    TsUser findbyphone(String userPhone);
 }
 

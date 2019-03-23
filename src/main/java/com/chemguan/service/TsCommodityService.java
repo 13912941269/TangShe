@@ -17,5 +17,6 @@ import java.util.Map;
  */
 public interface TsCommodityService extends Service<TsCommodity> {
 
+    List<TsCommodity> findbytype(Integer commodityType);
 
 }

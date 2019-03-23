@@ -4,6 +4,8 @@ import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.TsCommodity;
 import com.chemguan.entity.TsUser;
 
+import java.util.List;
+
 /**
  * @Title: TsCommodityRepository
  * @ProjectName
@@ -14,5 +16,7 @@ import com.chemguan.entity.TsUser;
 @org.apache.ibatis.annotations.Mapper
 public interface TsCommodityRepository extends Mapper<TsCommodity> {
 
+
+    List<TsCommodity> findbytype(Integer commodityType);
 }
 

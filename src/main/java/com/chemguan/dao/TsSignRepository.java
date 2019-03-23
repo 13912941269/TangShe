@@ -2,6 +2,9 @@ package com.chemguan.dao;
 
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.TsSign;
+import io.swagger.models.auth.In;
+
+import java.util.List;
 
 /**
  * @Title: TsSignRepository
@@ -13,5 +16,6 @@ import com.chemguan.entity.TsSign;
 @org.apache.ibatis.annotations.Mapper
 public interface TsSignRepository extends Mapper<TsSign> {
 
+    List<TsSign> findcountbyactid(Integer activityId);
 }
 

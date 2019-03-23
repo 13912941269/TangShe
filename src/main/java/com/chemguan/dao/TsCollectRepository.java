@@ -3,6 +3,8 @@ package com.chemguan.dao;
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.TsCollect;
 
+import java.util.Map;
+
 /**
  * @Title: TsCollectRepository
  * @ProjectName
@@ -13,5 +15,6 @@ import com.chemguan.entity.TsCollect;
 @org.apache.ibatis.annotations.Mapper
 public interface TsCollectRepository extends Mapper<TsCollect> {
 
+    Integer findcollectcount(Map map);
 }
 

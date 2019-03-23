@@ -29,4 +29,9 @@ public class TsUserServiceImpl extends AbstractService<TsUser> implements TsUser
     public List<TsUser> findByMap(Map map) {
         return TsUserRepository.findByMap(map);
     }
+
+    @Override
+    public TsUser findbyphone(String userPhone) {
+        return TsUserRepository.findbyphone(userPhone);
+    }
 }

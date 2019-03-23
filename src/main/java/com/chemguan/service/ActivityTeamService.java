@@ -2,6 +2,8 @@ package com.chemguan.service;
 import com.chemguan.entity.ActivityTeam;
 import com.chemguan.business.core.service.Service;
 
+import java.util.Map;
+
 
 /**
  * @Title: ActivityTeamService
@@ -12,4 +14,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface ActivityTeamService extends Service<ActivityTeam> {
 
+    ActivityTeam findteambyuseract(Map map);
 }

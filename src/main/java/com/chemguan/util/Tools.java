@@ -37,7 +37,8 @@ public class Tools {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
 		String dat=sdf1.format(new Date());
 		String[] num ="0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
-		Random rand = new Random();//创建Random类的对象rand
+		//创建Random类的对象rand
+		Random rand = new Random();
         int index = 0;
         StringBuffer sbf = new StringBuffer();
 		for(int i=0;i<5;i++){
@@ -52,17 +53,18 @@ public class Tools {
 	 * 生成14位随机编号
 	 */
 	public static String productCode(){
-		String pcode="";		
+		String pcode="";
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyMMdd");
 		String dat=sdf1.format(new Date());
 		String[] num ="0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z".split(",");
-        Random rand = new Random();//创建Random类的对象rand  
+		//创建Random类的对象rand
+        Random rand = new Random();
         int index = 0;
 		StringBuffer sbf = new StringBuffer();
-        for (int i=0; i<8; ++i){  
+        for (int i=0; i<8; ++i){
            index = rand.nextInt(num.length-1);
-			sbf.append(num[index]);
-        }  
+           sbf.append(num[index]);
+        }
 		pcode=dat+sbf;
 		return pcode;
 	}

@@ -2,19 +2,16 @@ package com.chemguan.mobilecontroller.shicontroller;
 
 import com.chemguan.business.core.results.Result;
 import com.chemguan.business.core.results.ResultGenerator;
-import com.chemguan.entity.ActivityCost;
-import com.chemguan.entity.ActivitySign;
-import com.chemguan.entity.SignTag;
-import com.chemguan.entity.TsActivity;
-import com.chemguan.service.ActivityCostService;
-import com.chemguan.service.ActivitySignService;
-import com.chemguan.service.SignTagService;
-import com.chemguan.service.TsActivityService;
+import com.chemguan.entity.*;
+import com.chemguan.service.*;
 import com.chemguan.util.Position;
+import com.chemguan.util.QRCode;
+import com.chemguan.util.Tools;
 import io.swagger.models.auth.In;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +48,35 @@ public class ActivityController {
     @Autowired
     private SignTagService signTagService;
 
+    @Autowired
+    private TsUserService tsUserService;
+
+    @Autowired
+    private TsCommodityService tsCommodityService;
+
+    @Autowired
+    private TsSignService tsSignService;
+
+    @Autowired
+    private FollowRecordService followRecordService;
+
+    @Autowired
+    private TsCollectService tsCollectService;
+
+
+    @Autowired
+    private TsReadService tsReadService;
+
+    @Autowired
+    private ActivityTeamService activityTeamService;
+
+
+    @Value("${fileinfo.imgRoot}")
+    private String imgRoot;
+
+    @Value("${fileinfo.onlineUrl}")
+    private String onlineUrl;
+
 
     /**
      * 添加/修改 活动页面
@@ -71,6 +98,10 @@ public class ActivityController {
                 tsActivityService.insertactivity(tsActivity);
             }
         }else{
+            //判断该用户是否是本活动的创建者或者负责人
+            if((!tsActivity.getUserId().equals(userId))&&(!tsActivity.getPrincipalId().equals(userId))){
+                return null;
+            }
             tsActivity=tsActivityService.findById(activityId);
         }
 
@@ -136,17 +167,21 @@ public class ActivityController {
 
     /**
      * 发布活动
-     * @param activityTitle 活动名称
+     * @param activityTitle     活动名称
      * @param activityAddress   活动地址
-     * @param startTime 开始时间
-     * @param signTime  截止报名时间
-     * @param endTime   结束时间
-     * @param columName 活动类别
-     * @param titleImg   封面图
-     * @param contentImg    内容图片
-     * @param costIds   报名费用id集合
-     * @param signId    报名设置id
-     * @param commentType   是否允许评论
+     * @param startTime         开始时间
+     * @param signTime          截止报名时间
+     * @param endTime           结束时间
+     * @param columName         活动类别
+     * @param titleImg          封面图
+     * @param contentImg        内容图片
+     * @param costIds           报名费用id集合
+     * @param signId            报名设置id
+     * @param commentType       是否允许评论
+     * @param scoreSwitch       是否开启积分
+     * @param explosionSwitch   是否开启爆款
+     * @param groupSwitch       是否开启拼团
+     * @param principalId       负责人id
      * @return
      */
     @RequestMapping("addact")
@@ -165,7 +200,9 @@ public class ActivityController {
                          Integer commentType,
                          Integer scoreSwitch,
                          Integer explosionSwitch,
-                         Integer groupSwitch) throws ParseException {
+                         Integer groupSwitch,
+                         Integer principalId
+                         ) throws ParseException {
         Integer userId = (Integer) request.getSession().getAttribute("userid");
         SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -225,7 +262,7 @@ public class ActivityController {
         tsActivity.setScoreSwitch(scoreSwitch);
         tsActivity.setExplosionSwitch(explosionSwitch);
         tsActivity.setGroupSwitch(groupSwitch);
-
+        tsActivity.setPrincipalId(principalId);
         //根据地址计算经纬度
         Map mapAddress = Position.getCoordinate(activityAddress);
         if(mapAddress!=null){
@@ -371,5 +408,95 @@ public class ActivityController {
 
 
 
+    /**
+     * 活动详情页
+     * activityId 活动id
+     * @return
+     */
+    @RequestMapping("activitydetail")
+    public ModelAndView activitydetail(HttpServletRequest request,Integer activityId,Integer recommendId) {
+        Integer userId = (Integer) request.getSession().getAttribute("userid");
 
+        ModelAndView mv=new ModelAndView();
+        //查询活动详情
+        TsActivity tsActivity = tsActivityService.findById(activityId);
+        if(tsActivity.getActivityState()==0){
+            if(!tsActivity.getUserId().equals(userId)&&!tsActivity.getPrincipalId().equals(userId)){
+                //活动还未发布无法查看
+                return null;
+            }
+        }
+
+
+        //查询用户是否属于该活动成员
+        Map teamMap=new HashMap();
+        teamMap.put("userId",userId);
+        teamMap.put("activityId",activityId);
+        ActivityTeam activityTeam = activityTeamService.findteambyuseract(teamMap);
+        if(activityTeam==null){
+            activityTeam=new ActivityTeam();
+            activityTeam.setActivityId(activityId);
+            activityTeam.setAddtime(new Date());
+            activityTeam.setUserId(userId);
+            activityTeam.setUserRole(5);
+            //生成二维码
+            QRCode qrCode=new QRCode();
+            String codeNumber = Tools.productCode();
+            qrCode.qrcode(onlineUrl+"/mobile/activitydetail?recommendId="+userId+"&activityId="+activityId,codeNumber,imgRoot);
+            activityTeam.setInvitImg(codeNumber+".jpg");
+            activityTeamService.save(activityTeam);
+        }
+
+
+        //查询活动费用
+        List<ActivityCost> listCost = activityCostService.findbyactid(activityId);
+
+        //查询主办方
+        TsUser tsUser = tsUserService.findById(tsActivity.getUserId());
+
+        //查询爆款商品
+        List<TsCommodity> listBK = tsCommodityService.findbytype(0);
+
+        //查询拼团
+        List<TsCommodity> listPT = tsCommodityService.findbytype(1);
+
+        //报名信息
+        List<TsSign> listSign = tsSignService.findcountbyactid(activityId);
+        for(TsSign tsSign:listSign){
+            TsUser signUser = tsUserService.findbyphone(tsSign.getCusPhone());
+            if(signUser!=null){
+                tsSign.setTsUser(signUser);
+            }
+        }
+
+        //判断用户是否关注
+        Integer followCount = followRecordService.findcountbyuid(userId);
+        if(followCount>0){
+            tsActivity.setSetFollowType(1);
+        }else{
+            tsActivity.setSetFollowType(0);
+        }
+
+
+        //判断用户是否收藏
+        Map map=new HashMap();
+        map.put("userId",userId);
+        map.put("activityId",activityId);
+        Integer collectCount = tsCollectService.findcollectcount(map);
+
+        //查询浏览量
+        Integer readCount = tsReadService.findreadcount(activityId);
+
+        mv.addObject("readCount",readCount);
+        mv.addObject("collectCount",collectCount);
+        mv.addObject("listCost",listCost);
+        mv.addObject("tsUser",tsUser);
+        mv.addObject("listBK",listBK);
+        mv.addObject("listPT",listPT);
+        mv.addObject("listSign",listSign);
+        mv.addObject("tsActivity",tsActivity);
+
+        mv.setViewName("");
+        return mv;
+    }
 }

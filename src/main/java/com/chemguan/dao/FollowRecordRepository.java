@@ -2,6 +2,7 @@ package com.chemguan.dao;
 
 import com.chemguan.business.core.mapper.Mapper;
 import com.chemguan.entity.FollowRecord;
+import io.swagger.models.auth.In;
 
 /**
  * @Title: FollowRecordRepository
@@ -13,5 +14,6 @@ import com.chemguan.entity.FollowRecord;
 @org.apache.ibatis.annotations.Mapper
 public interface FollowRecordRepository extends Mapper<FollowRecord> {
 
+    Integer findcountbyuid(Integer userId);
 }
 

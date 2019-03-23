@@ -8,5 +8,10 @@
             <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
     </resultMap>
 
+
+
+    <select id="findcountbyuid" resultType="java.lang.Integer">
+      select count(*) from follow_record where user_id=#{userId}
+    </select>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

@@ -58,3 +58,4 @@ pagehelper:
 
 fileinfo:
     imgRoot: E:/projectimg/
+    onlineUrl: localhost:9000

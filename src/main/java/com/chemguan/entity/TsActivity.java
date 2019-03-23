@@ -104,7 +104,7 @@ public class TsActivity  implements Serializable{
 
     /** 活动报名费用 */
     @Transient
-    private ActivityCost activityCost;
+    private List<ActivityCost> costList;
 
     /** 活动报名人数 */
     @Transient
@@ -118,9 +118,22 @@ public class TsActivity  implements Serializable{
     private Integer setCostType;
 
     /**
+     * 主办方信息
+     */
+    @Transient
+    private TsUser tsUser;
+
+    /**
      * 是否设置报名
      */
     @Transient
     private Integer setSignType;
+
+    /**
+     * 是否关注1:已关注 0:未关注
+     */
+    @Transient
+    private Integer setFollowType;
+
 }
 

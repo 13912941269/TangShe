@@ -11,4 +11,7 @@
     </resultMap>
 
 
+    <select id="findbytype" resultMap="BaseResultMap">
+      select * from ts_commodity where commodity_type=#{commodityType} order by commodity_id desc
+    </select>
 </mapper>

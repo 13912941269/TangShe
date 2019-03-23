@@ -11,5 +11,9 @@
         <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
     </resultMap>
 
+
+    <select id="findteambyuseract" resultMap="BaseResultMap">
+        select * from activity_team where user_id=#{userId} and activity_id=#{activityId} limit 0,1
+    </select>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

@@ -23,4 +23,8 @@ public class TsReadServiceImpl extends AbstractService<TsRead> implements TsRead
     @Autowired
     private TsReadRepository TsReadRepository;
 
+    @Override
+    public Integer findreadcount(Integer activityId) {
+        return TsReadRepository.findreadcount(activityId);
+    }
 }

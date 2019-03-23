@@ -1,20 +1,18 @@
 package com.chemguan.dao;
 
 import com.chemguan.business.core.mapper.Mapper;
-import com.chemguan.entity.ActivityTeam;
-
-import java.util.Map;
+import com.chemguan.entity.BackPhone;
+import com.chemguan.entity.OrderLog;
 
 /**
- * @Title: ActivityTeamRepository
+ * @Title: OrderLogRepository
  * @ProjectName
  * @Description: TODO
  * @author 
  * @date Wed Mar 20 11:32:51 CST 2019
  */
 @org.apache.ibatis.annotations.Mapper
-public interface ActivityTeamRepository extends Mapper<ActivityTeam> {
+public interface BackPhoneRepository extends Mapper<BackPhone> {
 
-    ActivityTeam findteambyuseract(Map map);
 }
 

@@ -12,4 +12,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface FollowRecordService extends Service<FollowRecord> {
 
+    Integer findcountbyuid(Integer userId);
 }

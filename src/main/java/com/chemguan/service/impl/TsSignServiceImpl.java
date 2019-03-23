@@ -8,6 +8,7 @@ import com.chemguan.business.core.service.AbstractService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 
 
 /**
@@ -21,6 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TsSignServiceImpl extends AbstractService<TsSign> implements TsSignService {
     @Autowired
-    private TsSignRepository TsSignRepository;
+    private TsSignRepository tsSignRepository;
 
+    @Override
+    public List<TsSign> findcountbyactid(Integer activityId) {
+        return tsSignRepository.findcountbyactid(activityId);
+    }
 }

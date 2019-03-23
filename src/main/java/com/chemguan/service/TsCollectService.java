@@ -2,6 +2,8 @@ package com.chemguan.service;
 import com.chemguan.entity.TsCollect;
 import com.chemguan.business.core.service.Service;
 
+import java.util.Map;
+
 
 /**
  * @Title: TsCollectService
@@ -12,4 +14,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface TsCollectService extends Service<TsCollect> {
 
+    Integer findcollectcount(Map map);
 }

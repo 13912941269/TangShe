@@ -12,4 +12,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface TsReadService extends Service<TsRead> {
 
+    Integer findreadcount(Integer activityId);
 }

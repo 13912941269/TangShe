@@ -23,4 +23,8 @@ public class FollowRecordServiceImpl extends AbstractService<FollowRecord> imple
     @Autowired
     private FollowRecordRepository FollowRecordRepository;
 
+    @Override
+    public Integer findcountbyuid(Integer userId) {
+        return FollowRecordRepository.findcountbyuid(userId);
+    }
 }

@@ -8,5 +8,10 @@
             <result column="addtime" jdbcType="TIMESTAMP" property="addtime"/>
     </resultMap>
 
+
+
+    <select id="findreadcount" resultType="java.lang.Integer">
+      select count(*) from ts_read where activity_id=#{activityId}
+    </select>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

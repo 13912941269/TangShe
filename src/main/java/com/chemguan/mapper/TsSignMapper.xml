@@ -19,5 +19,11 @@
             <result column="sign_state" jdbcType="INTEGER" property="signState"/>
     </resultMap>
 
+
+
+
+        <select id="findcountbyactid" resultType="java.lang.Integer">
+            select * from ts_sign where activity_id=#{activityId} where sign_state=1
+        </select>
     <!--<cache type="com.chemguan.business.core.util.RedisCache"/>-->
 </mapper>

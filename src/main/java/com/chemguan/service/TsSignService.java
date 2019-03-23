@@ -2,6 +2,8 @@ package com.chemguan.service;
 import com.chemguan.entity.TsSign;
 import com.chemguan.business.core.service.Service;
 
+import java.util.List;
+
 
 /**
  * @Title: TsSignService
@@ -12,4 +14,5 @@ import com.chemguan.business.core.service.Service;
  */
 public interface TsSignService extends Service<TsSign> {
 
+    List<TsSign> findcountbyactid(Integer activityId);
 }
